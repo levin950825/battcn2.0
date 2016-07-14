@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.battcn.platform.mapper.pub.OperateMapper">
+
+     <select id="queryOperateForList" parameterType="com.alibaba.fastjson.JSONObject" resultType="com.alibaba.fastjson.JSONObject" useCache="false">
+	     select m.id as menu ,m.name as menuname ,t.op as op ,t.name as name ,t.icon as icon ,t.ordno as ordno ,t.isshow as isshow  from t_sys_operate 
+	     t left join t_sys_menu m on (m.id = t.menu)
+	     order by m.name
+     </select>
+     
+     
+	 <select id="findOperateByOpAndMenu" parameterType="com.battcn.platform.entity.pub.OperateEntity" resultType="com.battcn.platform.entity.pub.OperateEntity" >
+	  	select * from t_sys_operate where op=#{op} and menu = #{menu}
+	 </select>
+	 
+	 
+	 <insert id="insertByOperate" parameterType="com.battcn.platform.entity.pub.OperateEntity" >
+	  insert into t_sys_operate  
+	  (
+	   <if test="name != null and name != ''">
+	       name,
+	   </if>
+	   <if test="icon != null and icon != ''">
+	       icon,
+	   </if>
+	   <if test="remark != null and remark != ''">
+	       remark,
+	   </if>
+	   <if test="ordno != null and ordno != '' ">
+	       ordno,
+	   </if>
+	   <if test="isshow != null ">
+	       isshow,
+	   </if>
+	    <if test="menu != null and menu != ''">
+	       menu,
+	   </if>
+	 <if test="op != null and op != ''">
+	       op 
+	   </if>
+	  )
+	  values 
+	  (
+	  <if test="name != null and name != ''">
+	       #{name},
+	   </if>
+	   <if test="icon != null and icon != ''">
+	       #{icon},
+	   </if>
+	   <if test="remark != null and remark != ''">
+	       #{remark},
+	   </if>
+	   <if test="ordno != null and ordno != ''">
+	       #{ordno},
+	   </if>
+	   <if test="isshow != null   ">
+	       #{isshow}, 
+	   </if>
+	    <if test="menu != null and menu != ''">
+	       #{menu},
+	   </if>
+	 <if test="op != null and op != ''">
+	      #{op}
+	   </if>
+	   )
+	 </insert>
+	 
+	 <update id="updateByOperate" parameterType="com.battcn.platform.entity.pub.OperateEntity">
+		UPDATE t_sys_operate
+		<set>
+			<if test="name != null and name != ''">
+	       name = #{name},
+	   </if>
+	   <if test="icon != null and icon != ''">
+	       icon =  #{icon} ,
+	   </if>
+	   <if test="remark != null and remark != ''">
+	      remark = #{remark} ,
+	   </if>
+	   <if test="ordno != null and ordno != ''">
+	       ordno =  #{ordno} ,
+	   </if>
+	   <if test="isshow != null   ">
+	        isshow = #{isshow}  ,
+	   </if>
+	    <if test="menu != null and menu != ''">
+	        menu = #{menu} ,
+	   </if>
+	 <if test="op != null and op != ''">
+	       op = #{op}
+	   </if>
+		</set>
+		WHERE  menu = #{menu} and op= #{op}
+	</update>
+	 
+	 
+	  
+	  <delete id="deleteByOperate" parameterType="com.battcn.platform.entity.pub.OperateEntity"  >
+	  	delete t from  t_sys_operate t where t.op = #{op} and t.menu = #{menu} 
+	  </delete>
+	  
+	  
+</mapper>
