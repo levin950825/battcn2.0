@@ -83,6 +83,7 @@
 				/install.shtml = anon
 				/404.jsp = anon
 				/error.jsp = anon
+				
 			</value>
 		</property>
 	</bean>

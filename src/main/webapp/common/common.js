@@ -207,7 +207,7 @@
 	 
 	$.ajaxSetup({
 		cache : false,
-		timeout : 5000
+		timeout : 50000
 	});
 
 	

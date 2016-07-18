@@ -1,11 +1,12 @@
 package com.battcn.platform.shiro;
 
 import java.util.List;
-import org.apache.commons.lang.StringUtils;
+
 import org.apache.shiro.config.Ini;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.battcn.platform.entity.pub.MenuEntity;
+
+import com.alibaba.fastjson.JSONObject;
 import com.battcn.platform.service.pub.MenuService;
 
 /**
@@ -29,25 +30,18 @@ public class ChainDefinitionSectionMetaSource implements FactoryBean<Ini.Section
 		Ini.Section section = ini.getSection(Ini.DEFAULT_SECTION_NAME);
 		// 循环Resource的url,逐个添加到section中。section就是filterChainDefinitionMap,
 		// 里面的键就是链接URL,值就是存在什么条件才能访问该链接
-		List<MenuEntity> list = menuService.queryMenuForList();
-		for (MenuEntity menu : list)
+		List<JSONObject> list = menuService.queryAllUrlForList();
+		for (JSONObject menu : list)
 		{
 			// 构成permission字符串
-			String key = menu.getChannel();
-			if (StringUtils.isNotBlank(key))
-			{
-				//key = key.substring(key.indexOf("/") + 1, key.lastIndexOf(".")).replace("/", ":");
-				String permission = "perms[" + key + "]";
-				// 如需要则 permission = "roles[" + resources.getResKey() + "]";
-				section.put(key, permission);
-				System.out.println(permission);
-			}
+			String param = menu.getString("param");
+			String key = menu.getString("key");
+			String permission = "perms[" + param + "]";
+			// 如需要则 permission = "roles[" + resources.getResKey() + "]";
+			section.put(key, permission);
+			System.out.println(key+"\t"+permission);
 		}
 		// 所有资源的访问权限，必须放在最后
-		/**
-		 * 如果需要一个用户只能登录一处地方,,修改为 section.put("/**",
-		 * "forceLogout,sysUser,kickout,authc");
-		 **/
 		/** 如果不需要 单个用户登录 ： section.put("/**", "authc"); */
 		section.put("/**", "sysUser,kickout,authc");
 		return section;
