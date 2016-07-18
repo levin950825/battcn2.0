@@ -1,4 +1,5 @@
 package com.battcn.platform.entity.pub;
+
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -20,38 +21,25 @@ public class ManagerEntity implements java.io.Serializable
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "managerid", unique = true, nullable = false)
-	private Integer managerid;
+	private Long managerid;
 	private Integer role;
 	private String account;
 	private String password;
 	private String name;
-	private Boolean state;
 	private Integer logintimes;
 	private String lastloginip;
 	private Timestamp lastlogintime;
+	@Column(name = "credentialsSalt")
+	private String credentialsSalt;
+	private String locked;
 	private String photo;
 
-	// Constructors
-
-	/** default constructor */
-	public ManagerEntity()
-	{
-	}
-
-	/** minimal constructor */
-	public ManagerEntity(String account, String password, Boolean state)
-	{
-		this.account = account;
-		this.password = password;
-		this.state = state;
-	}
-
-	public Integer getManagerid()
+	public Long getManagerid()
 	{
 		return this.managerid;
 	}
 
-	public void setManagerid(Integer managerid)
+	public void setManagerid(Long managerid)
 	{
 		this.managerid = managerid;
 	}
@@ -96,16 +84,6 @@ public class ManagerEntity implements java.io.Serializable
 		this.name = name;
 	}
 
-	public Boolean getState()
-	{
-		return this.state;
-	}
-
-	public void setState(Boolean state)
-	{
-		this.state = state;
-	}
-
 	public Integer getLogintimes()
 	{
 		return logintimes;
@@ -144,6 +122,26 @@ public class ManagerEntity implements java.io.Serializable
 	public void setPhoto(String photo)
 	{
 		this.photo = photo;
+	}
+
+	public String getCredentialsSalt()
+	{
+		return credentialsSalt;
+	}
+
+	public void setCredentialsSalt(String credentialsSalt)
+	{
+		this.credentialsSalt = credentialsSalt;
+	}
+
+	public String getLocked()
+	{
+		return locked;
+	}
+
+	public void setLocked(String locked)
+	{
+		this.locked = locked;
 	}
 
 	@Transient
