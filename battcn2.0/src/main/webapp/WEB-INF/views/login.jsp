@@ -45,8 +45,8 @@
             <div class="col-sm-5">
                 <form method="post" action="login.shtml">
                     <p class="m-t-md">登录到battcn后台</p>
-                    <input type="text" class="form-control uname" name="accountName" value="admin" placeholder="用户名" />
-                    <input type="password" class="form-control pword m-b" name="passWord" value="123456" placeholder="密码" />
+                    <input type="text" class="form-control uname" name="account" value="admin" placeholder="用户名" />
+                    <input type="password" class="form-control pword m-b" name="password" value="123456" placeholder="密码" />
                     <a href="install.shtml">初始化系统</a>
                     <p class="login-error">${LOGIN_ERROR_CODE}&nbsp;&nbsp;${LOGIN_ERROR_MESSAGE}</p>
                     <button class="btn btn-success btn-block">登录</button>

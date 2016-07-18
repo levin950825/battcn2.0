@@ -14,14 +14,13 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.battcn.annotation.SystemLog;
 import com.battcn.platform.controller.BaseController;
 import com.battcn.platform.entity.pub.LogEntity;
 import com.battcn.util.CommonUtil;
-import com.battcn.util.UserEntityUtil;
+import com.battcn.util.SessionUtil;
 import com.github.pagehelper.StringUtil;
 
 /**
@@ -70,7 +69,7 @@ public class LogAopAction extends BaseController
 		{
 			map = getControllerMethodDescription(point);
 			// 登录名
-			accountName = UserEntityUtil.getUserFromSession().getAccountName();
+			accountName = SessionUtil.getSession().getAccount();
 			if (StringUtil.isEmpty(accountName))
 			{
 				accountName = "无法获取登录用户信息！";
@@ -120,7 +119,7 @@ public class LogAopAction extends BaseController
 		try
 		{
 			// 登录名
-			accountName = UserEntityUtil.getUserFromSession().getAccountName();
+			accountName = SessionUtil.getSession().getAccount();
 			if (StringUtil.isEmpty(accountName))
 			{
 				accountName = "无法获取登录用户信息！";

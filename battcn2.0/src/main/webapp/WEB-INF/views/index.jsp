@@ -16,11 +16,10 @@
 				<ul class="nav" id="side-menu">
 					<li class="nav-header">
 						<div class="dropdown profile-element">
-							<span><img alt="image" class="img-circle"
-								src="${ctx}/${USER_SESSION_KEY.photo}" width="64px" height="64px"/></span> <a
+							<span><img alt="image" class="img-circle" src="http://static.battcn.com/common/favicon.png" width="64px" height="64px"/></span> <a
 								data-toggle="dropdown" class="dropdown-toggle" href="#"> <span
 								class="clear"> <span class="block m-t-xs"><strong
-										class="font-bold">${USER_SESSION_KEY.userName}</strong></span> <span
+										class="font-bold">${USER_SESSION_KEY.name}</strong></span> <span
 									class="text-muted text-xs block">超级管理员<b class="caret"></b></span>
 							</span>
 							</a>
@@ -35,16 +34,16 @@
 						</div>
 						<div class="logo-element">battcn</div>
 					</li>
-					<c:forEach items="${list}" var="rs">
-						<li><a href="#"> <i class="${rs.icon}"></i> <span
-								class="nav-label">${rs.name}</span> <span class="fa arrow"></span>
-						</a>
+					<c:if test="${list != null}">
+					  	<c:forEach items="${list}" var="l">
+					  		<li><a href="#"> <i class="${l.attributes.img}"></i><span class="nav-label">${l.text}</span> <span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level">
-								<c:forEach items="${rs.children}" var="ch">
-									<li><a title="${ch.description}" class="J_menuItem" href="${ctx}${ch.resUrl}?id=${ch.id}">${ch.name}</a></li>
+								<c:forEach items="${l.children}" var="c">
+									<li><a title="${ch.text}" class="J_menuItem" href="op_list_${c.id}">${c.text}</a></li>
 								</c:forEach>
 							</ul></li>
-					</c:forEach>
+					  	</c:forEach>
+				  </c:if>
 				</ul>
 			</div>
 		</nav>

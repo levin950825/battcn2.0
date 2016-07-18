@@ -1,9 +1,6 @@
 package com.battcn.platform.controller;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,9 +11,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.battcn.platform.constant.Constant;
-import com.battcn.platform.entity.ResourcesEntity;
-import com.battcn.platform.entity.UserEntity;
-import com.battcn.util.UserEntityUtil;
 
 public class BaseController
 {
@@ -33,22 +27,21 @@ public class BaseController
 	 * 
 	 * @throws Exception
 	 */
-	public List<ResourcesEntity> findResByUser()
+	/*public List<ResourcesEntity> findResByUser()
 	{
 		try
 		{
-			UserEntity infoForm = UserEntityUtil.getUserFromSession();
+			ManagerEntity infoForm = SessionUtil.getSession();
 			Map<String, String> queryMap = new HashMap<String, String>();
-			queryMap.put("userId", String.valueOf(infoForm.getId()));
+			queryMap.put("userId", String.valueOf(infoForm.getManagerid()));
 			queryMap.put("parentId", getParameter("id"));
-			// return resourcesService.findResourcessByMap(queryMap);
 			return null;
 		} catch (Exception e)
 		{
 			logger.error("--basecontroller --error---", e);
 		}
 		return null;
-	}
+	}*/
 
 	protected String noright(HttpServletRequest request, HttpServletResponse response, Model model)
 	{

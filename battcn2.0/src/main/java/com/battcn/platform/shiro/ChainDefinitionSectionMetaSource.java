@@ -37,7 +37,7 @@ public class ChainDefinitionSectionMetaSource implements FactoryBean<Ini.Section
 			if (StringUtils.isNotBlank(key))
 			{
 				//key = key.substring(key.indexOf("/") + 1, key.lastIndexOf(".")).replace("/", ":");
-				String permission = "perms[" + menu.getParam() + "]";
+				String permission = "perms[" + key + "]";
 				// 如需要则 permission = "roles[" + resources.getResKey() + "]";
 				section.put(key, permission);
 				System.out.println(permission);
