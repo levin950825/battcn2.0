@@ -39,13 +39,15 @@ public class IndexController extends BaseController
 		} else
 		{
 			MenuEntity menu = this.menuService.findMenuByPrimaryKey(operate.getMenu());// 获取对应的菜单对象
-			if ("list".equals(oper))
+			System.out.println(menu.getChannel() + "/" + operate.getOp() + ".shtml");
+			return "redirect:" + menu.getChannel() + "/" + operate.getOp() + ".shtml";
+			/*if ("list".equals(oper))
 			{
-				return menu.getChannel() + "/list";
+				return "pub/"+menu.getChannel() + "/list";
 			} else
 			{
 				return "forward:" + menu.getChannel() + "/" + operate.getOp() + ".shtml";
-			}
+			}*/
 		}
 	}
 }

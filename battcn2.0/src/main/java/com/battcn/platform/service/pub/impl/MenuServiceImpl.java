@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.battcn.platform.entity.DataGrid;
 import com.battcn.platform.entity.pub.ManagerEntity;
 import com.battcn.platform.entity.pub.MenuEntity;
 import com.battcn.platform.entity.pub.OperateEntity;
@@ -16,6 +17,7 @@ import com.battcn.platform.mapper.pub.OperateMapper;
 import com.battcn.platform.service.BaseService;
 import com.battcn.platform.service.pub.MenuService;
 import com.battcn.util.TreeNode;
+import com.github.pagehelper.PageInfo;
 
 /**
  * 
@@ -130,16 +132,37 @@ public class MenuServiceImpl extends BaseService<MenuEntity> implements
 	}
 
 	@Override
-	public List<MenuEntity> queryMenuForList()
+	public PageInfo<MenuEntity> queryForDataGrid(DataGrid grid)
 	{
-		return this.queryObjectForList();
+		grid.setSort("scort");
+		return super.queryForDataGrid(grid);
 	}
+	
+	
 
 	@Override
 	public List<MenuEntity> queryMenuByUserId(Long userId)
 	{
 		
 		return null;
+	}
+
+	@Override
+	public List<MenuEntity> queryMenuForList()
+	{
+		return this.menuMapper.selectAll();
+	}
+
+	@Override
+	public List<JSONObject> queryAllUrlForList()
+	{
+		return this.authMapper.queryAllUrlForList();
+	}
+	
+	@Override
+	public List<String> queryPermissionForList(Long userId)
+	{
+		return this.authMapper.queryPermissionForList(userId);
 	}
 
 }

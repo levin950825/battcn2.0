@@ -17,7 +17,6 @@ import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.battcn.platform.entity.pub.ManagerEntity;
-import com.battcn.platform.entity.pub.MenuEntity;
 import com.battcn.platform.service.pub.ManagerService;
 import com.battcn.platform.service.pub.MenuService;
 import com.battcn.util.SessionUtil;
@@ -38,22 +37,23 @@ public class MyRealm extends AuthorizingRealm
 	 * 如果需要动态权限,但是又不想每次去数据库校验,可以存在ehcache中.自行完善
 	 */
 	@Override
-	protected AuthorizationInfo doGetAuthorizationInfo(
-			PrincipalCollection principalCollection)
+	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection)
 	{
-		final String loginName = SecurityUtils.getSubject().getPrincipal()
-				.toString();
+		String loginName = principalCollection.getPrimaryPrincipal().toString();  
 		if (loginName != null)
 		{
 			Long userId = SessionUtil.getSession().getManagerid();
 			// 权限信息对象info,用来存放查出的用户的所有的角色（role）及权限（permission）
-			SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-			List<MenuEntity> list = menuService.queryMenuByUserId(userId);
-			for (MenuEntity menu : list)
+			List<String> list = menuService.queryPermissionForList(userId);
+			if(list != null && list.size() > 0)
 			{
-				info.addStringPermission(menu.getChannel());
+				SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+				for (String permission : list)
+				{
+					info.addStringPermission(permission);
+				}
+				return info;
 			}
-			return info;
 		}
 		return null;
 	}
@@ -68,8 +68,7 @@ public class MyRealm extends AuthorizingRealm
 	 * 在组装SimpleAuthenticationInfo信息时， 需要传入：身份信息（用户名）、凭据（密文密码）、盐（username+salt），
 	 * CredentialsMatcher使用盐加密传入的明文密码和此处的密文密码进行匹配。
 	 */
-	protected AuthenticationInfo doGetAuthenticationInfo(
-			AuthenticationToken token)
+	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token)
 	{
 
 		String accountName = (String) token.getPrincipal();
@@ -84,9 +83,10 @@ public class MyRealm extends AuthorizingRealm
 			// 当用户执行登录时,在方法处理上要实现user.login(token);
 			// 然后会自动进入这个类进行认证
 			// 交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以自定义实现
-			SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(accountName,
-					user.getPassword().toCharArray(),
-					ByteSource.Util.bytes(accountName + "" + user.getCredentialsSalt()), getName());
+			SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
+					accountName, user.getPassword().toCharArray(),
+					ByteSource.Util.bytes(accountName + ""
+							+ user.getCredentialsSalt()), getName());
 			// bWVtbXNj
 			// 当验证都通过后，把用户信息放在session里
 			Session session = SecurityUtils.getSubject().getSession();

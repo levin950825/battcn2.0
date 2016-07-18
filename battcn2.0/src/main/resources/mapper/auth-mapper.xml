@@ -4,6 +4,19 @@
 <mapper namespace="com.battcn.platform.mapper.pub.AuthMapper">
 	<!-- <cache eviction="LRU" flushInterval="60000" size="1024" readOnly="true" /> -->
 
+	<select id="queryAllUrlForList" resultType="com.alibaba.fastjson.JSONObject">
+		SELECT t1.name,concat(t1.channel,'/',t2.`op`,'.shtml') `key`,concat(t1.param,':',t2.op) param  FROM t_sys_menu t1 JOIN t_sys_operate t2 ON t1.id = t2.menu;
+	</select>
+	
+	<select id="queryPermissionForList" resultType="java.lang.String" parameterType="java.lang.Long">
+		SELECT concat(t3.param,':',t2.op) param FROM t_sys_role t1 JOIN t_sys_role_operate t2 JOIN t_sys_menu t3
+		ON t1.id = t2.role AND t2.menu = t3.id
+		<if test="userId != null and userId != 0">
+			AND t1.id = (SELECT role FROM t_sys_manager WHERE managerid = #{userId});
+		</if>
+	</select>
+
+
 	<select id="getParentMenu" parameterType="String"
 		resultType="com.alibaba.fastjson.JSONObject">
 		select * from t_sys_menu a
