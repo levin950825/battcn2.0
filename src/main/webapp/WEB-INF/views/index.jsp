@@ -39,7 +39,7 @@
 					  		<li><a href="#"> <i class="${l.attributes.img}"></i><span class="nav-label">${l.text}</span> <span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level">
 								<c:forEach items="${l.children}" var="c">
-									<li><a title="${ch.text}" class="J_menuItem" href="${ctx}/op_list_${c.id}.shtml">${c.text}</a></li>
+									<li><a title="${ch.text}" class="J_menuItem" href="${ctx}/op_list_${c.id}.shtml"><i class="${c.attributes.img}"></i>${c.text}</a></li>
 								</c:forEach>
 							</ul></li>
 					  	</c:forEach>

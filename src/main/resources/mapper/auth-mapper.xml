@@ -63,8 +63,6 @@
 		</if>
 	</select>
 
-
-
 	<select id="getOperatesInPermissionByMenu" parameterType="com.alibaba.fastjson.JSONObject"
 		resultType="com.battcn.platform.entity.pub.OperateEntity" useCache="false">
 		select a.* from t_sys_operate a left join t_sys_role_operate b on
@@ -73,4 +71,12 @@
 		on (d.id = f.role) where a.menu =
 		#{menu} and f.managerid =#{managerid}
 	</select>
+	
+	
+	<select id="queryOperateForList" resultType="com.battcn.platform.entity.pub.OperateEntity" parameterType="com.battcn.platform.entity.pub.RoleOperateEntity">
+		SELECT t2.* FROM t_sys_role_operate t1 JOIN t_sys_operate t2
+		ON t1.op = t2.op AND t1.menu = t2.menu AND t1.role = #{role} AND t1.menu = #{menu}
+	</select>
+	
+	
 </mapper>

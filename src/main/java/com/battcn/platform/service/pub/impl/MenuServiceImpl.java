@@ -25,16 +25,12 @@ import com.github.pagehelper.PageInfo;
  *
  */
 @Service
-public class MenuServiceImpl extends BaseService<MenuEntity> implements
-		MenuService
+public class MenuServiceImpl extends BaseService<MenuEntity> implements MenuService
 {
 
-	@Autowired
-	AuthMapper authMapper;
-	@Autowired
-	OperateMapper operateMapper;
-	@Autowired
-	MenuMapper menuMapper;
+	@Autowired AuthMapper authMapper;
+	@Autowired OperateMapper operateMapper;
+	@Autowired MenuMapper menuMapper;
 
 	@Override
 	public List<TreeNode> listTree(ManagerEntity manager)
@@ -137,20 +133,12 @@ public class MenuServiceImpl extends BaseService<MenuEntity> implements
 		grid.setSort("scort");
 		return super.queryForDataGrid(grid);
 	}
-	
-	
 
 	@Override
 	public List<MenuEntity> queryMenuByUserId(Long userId)
 	{
-		
-		return null;
-	}
 
-	@Override
-	public List<MenuEntity> queryMenuForList()
-	{
-		return this.menuMapper.selectAll();
+		return null;
 	}
 
 	@Override
@@ -158,7 +146,7 @@ public class MenuServiceImpl extends BaseService<MenuEntity> implements
 	{
 		return this.authMapper.queryAllUrlForList();
 	}
-	
+
 	@Override
 	public List<String> queryPermissionForList(Long userId)
 	{

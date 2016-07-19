@@ -1,63 +1,145 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
-<div class="ibox float-e-margins">
-	<div class="ibox-content">
-		<form class="form-horizontal m-t required-validate" id="roleForm">
-			<input type="hidden" name="id" value="${role.id}"/>
-			<div class="form-group">
-				<label class="col-sm-3 control-label">角色名：</label>
-				<div class="col-sm-8">
-					<input id="roleName" name="roleName"  class="form-control" type="text" value="${role.roleName}"
-						validate="{required:true,messages:{required:'请填写角色名'}}">
-						<span class="help-block m-b-none">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label">描述：</label>
-				<div class="col-sm-8">
-					<input id="description" name="description"  class="form-control" type="text" value="${role.description}">
-						<span class="help-block m-b-none">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label">是否启用：</label>
-				<div class="col-sm-8">
-					<div class="radio i-checks">
-                      	<label><input type="radio" value="0" checked="checked" name="isEnabled"> <i></i> 禁用</label>
-                      	<label><input type="radio" value="1" ${role.isEnabled == 1 ? 'checked="checked" ' : null} name="isEnabled"> <i></i> 启用</label>
-                    </div>
-				</div>
-			</div>
-		</form>
-	</div>
-</div>
-<script>
-   $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});
-</script>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
+<%@ taglib prefix="my" uri="http://www.bsco.com/mytags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<c:set var="ctx" value="${pageContext.request.contextPath}" />
 
-<script type="text/javascript">
+ <script type="text/javascript">
+ 
+ //所有页面按钮操作 数组 [2-list,2-edit,2-save,3-list,.....]
+var operates = [
+                <c:forEach var="m" varStatus="n" items="${operates}">
+                <c:if test="${m.index !=0}">,</c:if>
+                  '${m.menu}-${m.op}'
+               </c:forEach>
+];
 
-$(function(){
-  	save = function(obj) {
-  		if($("#roleForm").valid()){
+
+
+
+$(function() {
+	IDMark_A = "_a";
+	/* 初始化功能树 */
+	//ztree树  view回调方法 ：能够自定义树 追加内容
+	$.fn.zTree.init($('#menuTree'), {
+		data : {
+			simpleData : {
+				enable : true
+			}
+		},
+		view: {
+			addDiyDom: function(treeId, treeNode) {
+				var aObj = $("#" + treeNode.tId + IDMark_A);
+				var html = [];
+				for(var i=0;i<treeNode.operates.length;i++) {
+					var op = treeNode.operates[i];
+					html.push(" <label><input class=\"operates\" type=\"checkbox\" name=\"operates\" value=\""+op.id+"\""+($.inArray(op.id,operates)!=-1?" checked":"")+">"+op.name+"</label>");
+				}
+				aObj.after(html.join(""));
+			}
+		},
+		callback : {
+			onClick : function(event, treeId, treeNode, clickFlag) {
+				//
+			}
+		}
+	}, [ 
+	 <c:forEach varStatus="in" var="m" items="${menus}">
+	  <c:if test="${in.index != 0}">,</c:if>{
+		    "id" : '${m.id}',
+			"pId" : '${m.pId}',
+			"name" : "${m.name}",
+			"open" : true,
+			"operates" : [
+			    <c:forEach varStatus="oi" var="o" items="${m.operates}">
+			    <c:if test="${oi.index != 0}">,</c:if>
+			    {"id" : '${o.menu}-${o.op}', "name" : '${o.name}'}
+				</c:forEach>   
+			]
+		}
+	 </c:forEach>   
+	]);
+	
+	
+	
+ 	sy.admin.menu${OP.menu}.save = function() {
+  		if($("#menu${OP.menu}Form").valid()){
   			$.ajax({
 				type: "POST", 
-				url: rootPath + "/role/saveForm.shtml",
-				data: $('#roleForm').serializeArray(),
+				url: "op_save_${OP.menu}.action",
+				data: $('#menu${OP.menu}Form').serializeArray(),
+				dataType: "json",
 				success: function(data){
-					if(data == "success") {
-						layer.confirm('保存成功!是否关闭窗口?', function(index) {
-							battcn.closeWindow();
-							$('#roleTable').bootstrapTable('refresh');
-				        	return false;
- 						});
+					if(data.success) {
+						sy.closeWindow();
+						$('#admin_menu${OP.menu}_datagrid').bootstrapTable('refresh');
 					}
-					battcn.toastrsAlert({
+					sy.toastrsAlert({
 		       		     code: data.success ? 'success' :'error',
 		       		     msg: data.success ? '成功' :'失败'
 		       		});
 				}
 			});
   		}
+		 
 	}
- });
+ 	/* $("#checkAll").click(function(){
+ 		var $this = $(this);
+ 		 $("input[name='operates']").each(function(){
+ 			    console.info($this.prop("checked"));
+ 			   $(this).attr("checked",$this.prop("checked"));
+ 			  });  
+ 	}); */
+});
+
+
 </script>
+       <div class="wrapper wrapper-content gray-bg bgg animated  ${cfg.animated}   "   style="height:100%">
+                <div class="ibox">
+                    <div class="ibox-content">
+                    
+                    <form class="form-horizontal m-t required-validate"  id="menu${OP.menu}Form"   action="op_save_${OP.menu}.action"  method="post">
+                    <input type="hidden" name="id" value="${dto.id}"/>
+                    
+                           <div class="form-group">
+                                <label class="col-sm-3 control-label">角色名称：</label>
+                                <div class="col-sm-8">
+                                   <input  name="name" class="form-control" value="${dto.name}" validate="{required:true,messages:{required:'请填写名称'}}" type="text">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">角色代码：</label>
+                                <div class="col-sm-8">
+                                <c:choose>
+                                <c:when test="${empty dto.id}">
+                               <input  name="code" class="form-control" value="${dto.code}" validate="{required:true,messages:{required:'请填写代码'}}" type="text">
+                                </c:when>
+                                <c:otherwise>
+                                <span style="display: block;   margin-top: 6px;">${dto.code}</span>
+						           <input type="hidden" name="code" class="formText" value="${dto.code}" />
+                                </c:otherwise>
+                                </c:choose> 
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">权限：</label>
+                                <div class="col-sm-8" >
+                                    <div  style="width: 470px; height:auto ; overflow: auto; border-width: 1px; border-color: #ccc; border-style: solid; padding: 1px;">
+							    		<div id="menuTree" class="ztree"></div>
+							    	</div>
+							    	<label><input id="checkAll"  onclick="javascript:$('.operates').prop('checked',($(this).prop('checked') ? true : false ));"   type="checkbox" />全选/不选 </label>
+                                </div>
+                            </div>
+                             <div class="form-group">
+                                <label class="col-sm-3 control-label">备注：</label>
+                                <div class="col-sm-8">
+                                       <textarea id="ccomment" name="remark" cols="55" rows="3" class="form-control" >${dto.remark}</textarea>
+                                </div>
+                            </div>
+                             
+                        </form>
+                        
+                    </div>
+                </div>
+                </div>
