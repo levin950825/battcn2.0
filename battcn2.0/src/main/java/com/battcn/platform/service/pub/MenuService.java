@@ -14,7 +14,6 @@ public interface MenuService
 	public List<JSONObject> queryAllUrlForList();
 	List<String> queryPermissionForList(Long userId);
 	public List<TreeNode> listTree(ManagerEntity manager);
-	public List<MenuEntity> queryMenuForList();
 	public PageInfo<MenuEntity> queryForDataGrid(DataGrid grid);
 	public List<MenuEntity> queryMenuByUserId(Long userId);
 	public List<JSONObject> getAll();

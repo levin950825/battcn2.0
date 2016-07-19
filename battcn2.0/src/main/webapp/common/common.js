@@ -38,7 +38,7 @@
 	});
 	
 	
-	battcn.ajaxOpen = (function(options) {
+	battcn.showWindow = (function(options) {
 		var title = options.title;
 		var href = options.href == undefined  ? null : options.href;
 		var content = options.content;

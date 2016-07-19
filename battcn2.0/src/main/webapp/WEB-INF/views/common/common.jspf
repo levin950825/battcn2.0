@@ -35,7 +35,6 @@
 <link href="http://static.battcn.com/back/css/plugins/iCheck/custom.css" rel="stylesheet">
 <link href="http://static.battcn.com/back/css/smartMenu/smartMenu.css" rel="stylesheet">
 
-<link href="${ctx}/static/css/style.css" rel="stylesheet" type="text/css">
 
 <link href="http://static.battcn.com/back/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
 

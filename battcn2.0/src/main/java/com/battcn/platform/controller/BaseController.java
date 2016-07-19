@@ -1,16 +1,23 @@
 package com.battcn.platform.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.battcn.platform.constant.Constant;
+import com.battcn.platform.entity.pub.OperateEntity;
+import com.battcn.platform.entity.pub.RoleOperateEntity;
+import com.battcn.platform.service.pub.MenuService;
+import com.battcn.platform.service.pub.RoleOperateService;
+import com.battcn.util.SessionUtil;
 
 public class BaseController
 {
@@ -20,30 +27,27 @@ public class BaseController
 
 	Logger logger = Logger.getLogger(BaseController.class);
 
-	// @Autowired public ResourcesService resourcesService;
+	@Autowired RoleOperateService roleOperateService;
+	@Autowired MenuService menuService;
 
 	/**
 	 * 获取返回某一页面的按扭组,
 	 * 
 	 * @throws Exception
 	 */
-	/*public List<ResourcesEntity> findResByUser()
+	public void toolbar(Model model)
 	{
-		try
-		{
-			ManagerEntity infoForm = SessionUtil.getSession();
-			Map<String, String> queryMap = new HashMap<String, String>();
-			queryMap.put("userId", String.valueOf(infoForm.getManagerid()));
-			queryMap.put("parentId", getParameter("id"));
-			return null;
-		} catch (Exception e)
-		{
-			logger.error("--basecontroller --error---", e);
-		}
-		return null;
-	}*/
+		Integer menu = (Integer) SessionUtil.get();
+		RoleOperateEntity dto = new RoleOperateEntity();
+		dto.setRole(SessionUtil.getSession().getRole());
+		dto.setMenu(menu);
+		List<OperateEntity> op = this.roleOperateService.queryOperateForList(dto);
+		model.addAttribute("operates", op);
+		model.addAttribute("OP",op.get(0));
+		model.addAttribute("MENU",this.menuService.findMenuByPrimaryKey(menu));// 获取对应的菜单对象
+	}
 
-	protected String noright(HttpServletRequest request, HttpServletResponse response, Model model)
+	protected String noright(HttpServletRequest request, HttpServletResponse response)
 	{
 		String requestType = request.getHeader("X-Requested-With");
 		if ("XMLHttpRequest".equals(requestType))

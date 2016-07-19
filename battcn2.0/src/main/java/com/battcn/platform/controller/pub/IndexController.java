@@ -5,49 +5,32 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.battcn.platform.controller.BaseController;
 import com.battcn.platform.entity.pub.MenuEntity;
-import com.battcn.platform.entity.pub.OperateEntity;
 import com.battcn.platform.service.pub.MenuService;
-import com.battcn.platform.service.pub.OperateService;
+import com.battcn.util.SessionUtil;
 
 @Controller
 public class IndexController extends BaseController
 {
-
 	@Autowired
 	MenuService menuService;
-	@Autowired
-	OperateService operateService;
 
 	@RequestMapping("/op_{oper}_{id}")
-	public String op(@PathVariable String oper, @PathVariable Integer id, HttpServletRequest request,
-			HttpServletResponse response, Model model) throws Exception
+	public String op(@PathVariable String oper, @PathVariable Integer id,
+			HttpServletRequest request,HttpServletResponse response) throws Exception
 	{
-		OperateEntity operate = new OperateEntity();
-		operate.setMenu(id);
-		operate.setOp(oper);
-		operate = this.operateService.findByOperate(operate);
-		// 当前方法对应的菜单下面的操作对象
-		if (operate == null)
+		MenuEntity menu = this.menuService.findMenuByPrimaryKey(id);// 获取对应的菜单对象
+		if(menu != null)
 		{
-			return noright(request, response, model);
-		} else
-		{
-			MenuEntity menu = this.menuService.findMenuByPrimaryKey(operate.getMenu());// 获取对应的菜单对象
-			System.out.println(menu.getChannel() + "/" + operate.getOp() + ".shtml");
-			return "redirect:" + menu.getChannel() + "/" + operate.getOp() + ".shtml";
-			/*if ("list".equals(oper))
-			{
-				return "pub/"+menu.getChannel() + "/list";
-			} else
-			{
-				return "forward:" + menu.getChannel() + "/" + operate.getOp() + ".shtml";
-			}*/
+			SessionUtil.pub(id);
+			//假设我在这里 设置一个值 但是 重定向到下个Controller中 返回到页面 拿不到
+			System.out.println(menu.getChannel() + "/" + oper + ".shtml?OP_MENU="+id);//redirect  - forward
+			return "redirect:" + menu.getChannel() + "/" + oper + ".shtml";
 		}
+		return noright(request, response);
 	}
 }
