@@ -35,12 +35,12 @@
 
 	<select id="getChildMenuInPermission" parameterType="java.lang.Integer"
 		resultType="com.alibaba.fastjson.JSONObject" useCache="false">
-		SELECT t1.id,t1.name,t1.img,t1.pid FROM t_sys_menu t1 JOIN (
+		SELECT t1.id,t1.name,t1.img,t1.pid,t1.ordno FROM t_sys_menu t1 JOIN (
 		SELECT menu FROM t_sys_role_operate t1 JOIN t_sys_operate t2
 		ON t1.op_id = t2.id AND t1.role = #{role} AND t2.isshow = 1 GROUP BY menu
-		) t2 ON t1.id = t2.menu AND t1.state = 1
+		) t2 ON t1.id = t2.menu AND t1.state = 1 
 		UNION ALL 
-		SELECT t1.id,t1.name,t1.img,t1.pid FROM t_sys_menu t1 WHERE t1.state = 1 AND t1.pid IS NULL
+		SELECT t1.id,t1.name,t1.img,t1.pid,t1.ordno FROM t_sys_menu t1 WHERE t1.state = 1 AND t1.pid IS NULL  ORDER BY ordno
 	</select>
 
 
