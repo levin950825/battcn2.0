@@ -33,21 +33,14 @@
 	</select>
 
 
-	<select id="getChildMenuInPermission" parameterType="com.alibaba.fastjson.JSONObject"
+	<select id="getChildMenuInPermission" parameterType="java.lang.Integer"
 		resultType="com.alibaba.fastjson.JSONObject" useCache="false">
-		select a.* from t_sys_menu a left join t_sys_operate b on (a.id =
-		b.menu ) left join t_sys_role_operate c on (b.menu = c.menu and b.op =
-		c.op) left join t_sys_role d on (c.role = d.id) left join
-		t_sys_manager f
-		on (d.id = f.role) where f.managerid = #{accountid} and b.op = 'list'
-		and a.state = 1
-		<if test="menuid != null and menuid != ''">
-			and a.pid = #{menuid}
-		</if>
-		<if test="menuid == null or menuid == ''">
-			and a.pid is null
-		</if>
-		order by a.ordno
+		SELECT t1.id,t1.name,t1.img,t1.pid FROM t_sys_menu t1 JOIN (
+		SELECT menu FROM t_sys_role_operate t1 JOIN t_sys_operate t2
+		ON t1.op_id = t2.id AND t1.role = #{role} AND t2.isshow = 1 GROUP BY menu
+		) t2 ON t1.id = t2.menu AND t1.state = 1
+		UNION ALL 
+		SELECT t1.id,t1.name,t1.img,t1.pid FROM t_sys_menu t1 WHERE t1.state = 1 AND t1.pid IS NULL
 	</select>
 
 
@@ -73,9 +66,9 @@
 	</select>
 	
 	
-	<select id="queryOperateForList" resultType="com.battcn.platform.entity.pub.OperateEntity" parameterType="com.battcn.platform.entity.pub.RoleOperateEntity">
+	<select id="queryOperateForList" resultType="com.battcn.platform.entity.pub.OperateEntity" parameterType="com.alibaba.fastjson.JSONObject">
 		SELECT t2.* FROM t_sys_role_operate t1 JOIN t_sys_operate t2
-		ON t1.op = t2.op AND t1.menu = t2.menu AND t1.role = #{role} AND t1.menu = #{menu}
+		ON t1.op_id = t2.id AND t1.role = #{role} AND t2.menu = #{menu}
 	</select>
 	
 	

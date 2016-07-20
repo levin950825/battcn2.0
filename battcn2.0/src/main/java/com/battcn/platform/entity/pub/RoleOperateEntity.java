@@ -7,10 +7,9 @@ public class RoleOperateEntity implements java.io.Serializable
 {
 
 	private static final long serialVersionUID = 7164734171717016145L;
-	
+
 	private Integer role;
-	private Integer menu;
-	private String op;
+	private Integer op_id;
 
 	public Integer getRole()
 	{
@@ -22,24 +21,14 @@ public class RoleOperateEntity implements java.io.Serializable
 		this.role = role;
 	}
 
-	public Integer getMenu()
+	public Integer getOp_id()
 	{
-		return menu;
+		return op_id;
 	}
 
-	public void setMenu(Integer menu)
+	public void setOp_id(Integer op_id)
 	{
-		this.menu = menu;
-	}
-
-	public String getOp()
-	{
-		return op;
-	}
-
-	public void setOp(String op)
-	{
-		this.op = op;
+		this.op_id = op_id;
 	}
 
 }

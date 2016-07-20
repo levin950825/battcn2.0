@@ -3,9 +3,7 @@ package com.battcn.platform.logAop;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -15,9 +13,9 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import com.battcn.annotation.SystemLog;
-import com.battcn.platform.controller.BaseController;
 import com.battcn.platform.entity.pub.LogEntity;
 import com.battcn.util.CommonUtil;
 import com.battcn.util.SessionUtil;
@@ -28,7 +26,7 @@ import com.github.pagehelper.StringUtil;
  */
 @Aspect	
 @Component
-public class LogAopAction extends BaseController
+public class LogAopAction
 {
 	// 本地异常日志记录对象
 	private static final Logger logger = LoggerFactory.getLogger(LogAopAction.class);
@@ -53,7 +51,7 @@ public class LogAopAction extends BaseController
 	@AfterThrowing(pointcut = "beforeController()", throwing = "e")
 	public void doAfterThrowing(JoinPoint point, Throwable e)
 	{
-		HttpServletRequest request = getHttpRequest();
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 		LogEntity logForm = new LogEntity();
 		Map<String, Object> map = null;
 		String accountName = null;
@@ -97,7 +95,7 @@ public class LogAopAction extends BaseController
 	@Around("beforeController()")
 	public Object doController(ProceedingJoinPoint point)
 	{
-		HttpServletRequest request = getHttpRequest();
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 		Object result = null;
 		// 执行方法名
 		String methodName = point.getSignature().getName();

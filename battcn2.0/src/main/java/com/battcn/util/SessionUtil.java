@@ -3,12 +3,8 @@ package com.battcn.util;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.battcn.platform.entity.pub.ManagerEntity;
 
@@ -36,16 +32,5 @@ public class SessionUtil
 	{
 		return new SimpleDateFormat(format).format(date);
 	}
-
 	
-	public static void pub(Object val)
-	{
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-		request.getSession().setAttribute("OP_MENU", val);
-	}
-	public static Object get()
-	{
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-		return request.getSession().getAttribute("OP_MENU");
-	}
 }

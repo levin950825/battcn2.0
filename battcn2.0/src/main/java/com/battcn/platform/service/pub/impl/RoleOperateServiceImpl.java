@@ -1,10 +1,9 @@
 package com.battcn.platform.service.pub.impl;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import com.alibaba.fastjson.JSONObject;
 import com.battcn.platform.entity.pub.OperateEntity;
 import com.battcn.platform.entity.pub.RoleOperateEntity;
 import com.battcn.platform.mapper.pub.AuthMapper;
@@ -16,7 +15,7 @@ public class RoleOperateServiceImpl extends BaseService<RoleOperateEntity> imple
 {
 	@Autowired AuthMapper authMapper;
 	@Override
-	public List<OperateEntity> queryOperateForList(RoleOperateEntity dto)
+	public List<OperateEntity> queryOperateForList(JSONObject dto)
 	{
 		return this.authMapper.queryOperateForList(dto);
 	}
