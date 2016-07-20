@@ -33,9 +33,6 @@ public class LoginController
 	@Autowired
 	MenuService menuService;
 
-	// @Autowired RoleService roleService;
-	// @Autowired UserService userService;
-
 	@RequestMapping(value = "login", method = RequestMethod.GET, produces = "text/html; charset=utf-8")
 	public String login(HttpServletRequest request)
 	{

@@ -23,7 +23,7 @@ public class MenuController extends BaseController
 	@RequestMapping(value = "/list")
 	public String list(Model model,DataGrid grid) throws Exception
 	{
-		super.toolbar(model);
+		//super.toolbar(model);
 		model.addAttribute("page", this.menuService.queryForDataGrid(grid));
 		return "pub/menu/list";
 	}

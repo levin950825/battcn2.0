@@ -1,7 +1,5 @@
 package com.battcn.platform.controller.pub;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +25,7 @@ public class OperateController extends BaseController
 	@RequestMapping(value = "/list")
 	public String list(Model model)
 	{
-		super.toolbar(model);
+		//super.toolbar(model);
 		return "pub/operate/list";
 	}
 	
@@ -39,8 +37,9 @@ public class OperateController extends BaseController
 	}
 
 	@RequestMapping(value = "/edit")
-	public String edit(HttpServletRequest request,OperateEntity dto, Model model)
+	public String edit(OperateEntity dto, Model model)
 	{
+		//super.editToolbar(model);
 		if (dto != null)
 		{
 			model.addAttribute("dto", this.operateService.findByOperate(dto));

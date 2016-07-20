@@ -3,6 +3,7 @@ package com.battcn.platform.service.pub.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,48 +36,46 @@ public class MenuServiceImpl extends BaseService<MenuEntity> implements MenuServ
 	@Override
 	public List<TreeNode> listTree(ManagerEntity manager)
 	{
-		JSONObject map = new JSONObject();
-		Long accountid = manager.getManagerid();
-		map.put("accountid", accountid);
-		List<JSONObject> list = this.authMapper.getChildMenuInPermission(map);
-		return createTree(list, accountid);
+		List<TreeNode> trees = new ArrayList<TreeNode>();
+		List<JSONObject> list = this.authMapper.getChildMenuInPermission(manager.getRole());
+		for (JSONObject obj : list)
+		{
+			if(StringUtils.isBlank(obj.getString("pid")))
+			{
+				TreeNode tree = new TreeNode();
+				List<TreeNode> listTree = createTree(list,obj.getString("id"));
+				if(listTree != null && listTree.size() > 0)
+				{
+					tree.setId(obj.getString("id"));
+					tree.setText(obj.getString("name"));
+					JSONObject map = new JSONObject();
+					map.put("img", obj.getString("img"));
+					tree.setAttributes(map);
+					tree.setChildren(listTree);
+					trees.add(tree);
+				}
+			}
+		}
+		return trees;
 	}
 
-	private List<TreeNode> createTree(List<JSONObject> l, Long accountid)
+	private List<TreeNode> createTree(List<JSONObject> l,String pid)
 	{
-		List<TreeNode> tree = new ArrayList<TreeNode>();
-		List<JSONObject> list = null;
+		List<TreeNode> trees = new ArrayList<TreeNode>();
 		for (JSONObject a : l)
 		{
-			TreeNode t = new TreeNode();
-			t.setId(a.getString("id"));
-			t.setText(a.getString("name"));
-			JSONObject map = new JSONObject();
-			map.put("img", a.getString("img"));
-			t.setAttributes(map);
-			if (accountid == null)
+			if(pid.equals(a.getString("pid")))
 			{
-				try
-				{
-					list = this.authMapper.getParentMenu(a.getString("id"));
-				} catch (Exception e)
-				{
-					e.printStackTrace();
-				}
-			} else
-			{
-				JSONObject m2 = new JSONObject();
-				m2.put("menuid", a.get("id"));
-				m2.put("accountid", accountid);
-				list = this.authMapper.getChildMenuInPermission(m2);
+				TreeNode tree = new TreeNode();
+				tree.setId(a.getString("id"));
+				tree.setText(a.getString("name"));
+				JSONObject map = new JSONObject();
+				map.put("img", a.getString("img"));
+				tree.setAttributes(map);
+				trees.add(tree);
 			}
-			if (!list.isEmpty())
-			{
-				t.setChildren(createTree(list, accountid));
-			}
-			tree.add(t);
 		}
-		return tree;
+		return trees;
 	}
 
 	@Override
