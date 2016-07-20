@@ -120,10 +120,10 @@ battcn.admin.menu${OP.menu}.edit = function(){
 	battcn.admin.menu${OP.menu}.remove = function(){
 		var rows =$('#admin_menu${OP.menu}_datagrid').bootstrapTable('getSelections');
 		if(rows.length==0){
-		 battcn.toastrsAlert({
+		battcn.toastrsAlert({
 		     code:'info',
 		     msg:'请选择你要删除的记录'
-		});
+		}); 
 		return;
 	}
 	
