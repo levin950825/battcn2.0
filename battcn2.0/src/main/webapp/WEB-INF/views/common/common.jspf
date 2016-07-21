@@ -32,6 +32,7 @@
 <link href="http://static.battcn.com/back/css/style.min.css?v=4.0.0" rel="stylesheet">
 <link href="http://static.battcn.com/back/css/plugins/iCheck/custom.css" rel="stylesheet">
 <link href="http://static.battcn.com/back/css/smartMenu/smartMenu.css" rel="stylesheet">
+<link href="http://static.battcn.com/back/css/plugins/toastr/toastr.min.css" rel="stylesheet">
 
 <link href="http://static.battcn.com/back/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
 
@@ -44,6 +45,7 @@
 <script src="http://static.battcn.com/back/js/plugins/toastr/toastr.min.js"></script>
 <script src="http://static.battcn.com/back/js/plugins/iCheck/icheck.min.js"></script>
 
+<script src="http://static.battcn.com/back/js/plugins/toastr/toastr.min.js"></script>
 <script src="http://static.battcn.com/back/js/plugins/layer/layer.min.js"></script>
 <script src="http://static.battcn.com/back/js/smartMenu/jquery-smartMenu.js"></script>
 <script src="http://static.battcn.com/back/js/hplus.min.js?v=4.0.0"></script>
@@ -57,6 +59,7 @@
 <script src="http://static.battcn.com/back/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
 <script src="http://static.battcn.com/back/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
 <script type="text/javascript" src="${ctx}/common/common.js"></script>
+<script type="text/javascript" src="${ctx}/common/msg.js"></script>
 <!-- tree：重要  -->
 <link rel="stylesheet" href="http://static.battcn.com/back/treegrid/css/jquery.treegrid.css">
 <script type="text/javascript" src="http://static.battcn.com/back/treegrid/js/jquery.treegrid.js"></script>
