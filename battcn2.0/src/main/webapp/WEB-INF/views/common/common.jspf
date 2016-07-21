@@ -65,6 +65,8 @@
 <script type="text/javascript" src="http://static.battcn.com/back/treegrid/js/jquery.treegrid.js"></script>
 <script type="text/javascript" src="http://static.battcn.com/back/treegrid/js/jquery.treegrid.bootstrap3.js"></script>
 
+<link rel="stylesheet" type="text/css"	href="http://static.battcn.com/back/ztree/css/style.css">
+<script type="text/javascript" src="http://static.battcn.com/back/ztree/jquery.ztree.all.js"></script>
 <style>
 body{overflow: hidden !important; height: 100%;}
 #wrapper{overflow-y: hidden;}
@@ -75,6 +77,7 @@ body{overflow: hidden !important; height: 100%;}
 .bootstrap-table{margin-top: -50px;} 
 form .input-group{margin-top: 4px;}
 .skin-1 .navbar-minimalize {color: #262626;text-decoration: none;background-color: #FFF;}    
+textarea {resize: vertical;}
 </style>
 
 
