@@ -1,5 +1,6 @@
 package com.battcn.platform.shiro;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.shiro.SecurityUtils;
@@ -91,6 +92,10 @@ public class MyRealm extends AuthorizingRealm
 			// 当验证都通过后，把用户信息放在session里
 			Session session = SecurityUtils.getSubject().getSession();
 			session.setAttribute(SessionUtil.USER_SESSION_KEY, user);
+			
+			user.setLastloginip(SessionUtil.getIpAddress());
+			user.setLastlogintime(new Date());
+			this.managerService.update(user);
 			return authenticationInfo;
 		} else
 		{

@@ -29,7 +29,7 @@
 		                             <td><input type="checkbox" class="ii-checks" name="check" value="${tree.id}"></td>
 		                             <td>${tree.name}</td>
 		                             <td>${tree.channel}</td>
-		                             <td><i class="${tree.img}"></i></td>
+		                             <td><i class="${tree.img} text-navy"></i></td>
 		                             <td>${tree.state ? '<i class="fa fa-check text-navy"></i>' : '<i class="fa fa-close text-danger"></i> '}</td>
 		                             <td><fmt:formatDate value="${tree.addtime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 		                             <td><fmt:formatDate value="${tree.updatetime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>

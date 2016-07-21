@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <script type="text/javascript">
     var tt = 0;
     $(function(){
@@ -45,6 +46,10 @@
                  title: '图标',
                  align: 'left',
                  valign: 'top',
+                 formatter: function(val,row)
+                 {
+                	 return '<i class="fa fa-'+val+' text-navy"></i>';
+                 },
                  sortable: true
              }, {
                  field: 'ordno',
@@ -73,8 +78,8 @@ battcn.admin.menu${OP.menu}.add = function(){
 	battcn.showWindow({
 			title:'增加操作',
 			href:rootPath + '/op_edit_${OP.menu}.shtml',
-			width:'800px',
-			height:'600px',
+			width:'50%',
+			height:'80%',
 			okhandler:function(){
 				battcn.admin.menu${OP.menu}.save();
 			},
@@ -86,68 +91,50 @@ battcn.admin.menu${OP.menu}.add = function(){
 
 	//编辑
 battcn.admin.menu${OP.menu}.edit = function(){
-	var rows = $('#admin_menu${OP.menu}_datagrid').bootstrapTable('getSelections');
-	if(rows.length==0){
-		 battcn.toastrsAlert({
-		     code:'info',
-		     msg:'请选择你要编辑的记录'
-		});
-		return;
+	var rows =$('#admin_menu${OP.menu}_datagrid').bootstrapTable('getSelections');
+	switch(rows.length)
+	{
+		case 0:battcn.msg(msg.choose);break;
+		case 1:
+			battcn.showWindow({
+				title:'编辑操作',
+				href:rootPath + '/op_edit_${OP.menu}.shtml?menu='+rows[0].menu+'&op='+rows[0].op,
+				width:'50%',
+				height:'80%',
+				okhandler:function(){
+					battcn.admin.menu${OP.menu}.save();
+				},
+				cancelhandler:function(){
+					battcn.closeWindow();
+				}
+			});
+			break;
+		default :battcn.msg(msg.single);break;	
 	}
-	if(rows.length > 1){
-		 battcn.toastrsAlert({
-		     code:'warning',
-		     msg:'sorry,只能选择一条进行编辑'
-		});
-		return;
-	}
-	battcn.showWindow({
-			title:'编辑操作',
-			href:rootPath + '/op_edit_${OP.menu}.shtml?menu='+rows[0].menu+'&op='+rows[0].op,
-			width:'800px',
-			height:'600px',
-			okhandler:function(){
-				battcn.admin.menu${OP.menu}.save();
-			},
-			cancelhandler:function(){
-				battcn.closeWindow();
-			}
-		});
-	}
- 
+}
 	
 	//删除
 	battcn.admin.menu${OP.menu}.remove = function(){
 		var rows =$('#admin_menu${OP.menu}_datagrid').bootstrapTable('getSelections');
-		if(rows.length==0){
-		battcn.toastrsAlert({
-		     code:'info',
-		     msg:'请选择你要删除的记录'
-		}); 
-		return;
-	}
-	
-	battcn.confirm(function(){
-		var rows =$('#admin_menu${OP.menu}_datagrid').bootstrapTable('getSelections');
-		var ps = [];
-    	$.each(rows,function(i,n){
-    		ps.push(n.menu+"-"+n.op);
-    	});
-    	$.ajax({
-            type: 'post',
-            url: rootPath + 'op_remove_${OP.menu}.shtml',
-            data: {"ids":ps.join(",")},
-            dataType: 'json',
-            success: function (data) {
+		if(rows.length==0)battcn.msg(msg.remove);return;
+		battcn.confirm(function(){
+			var rows =$('#admin_menu${OP.menu}_datagrid').bootstrapTable('getSelections');
+			var ps = [];
+	    	$.each(rows,function(i,n){
+	    		ps.push(n.menu+"-"+n.op);
+	    	});
+	    	$.ajax({
+	            type: 'post',
+	            url: rootPath + '/op_remove_${OP.menu}.shtml',
+	            data: {"ids":ps.join(",")},
+	            dataType: 'json',
+	            success: function (data) {
 	            	$('#admin_menu${OP.menu}_datagrid').bootstrapTable('refresh');
-	            	battcn.toastrsAlert({
-	       		     code:'success',
-	       		     msg:'删除成功'
-	       		});
-            }
-        });
-	});
-}
+	            	battcn.msg(data.msg);
+	            }
+	        });
+		});
+	}
 </script>
 <div class="wrapper wrapper-content animated fadeInRight">
 	<div class="ibox float-e-margins">

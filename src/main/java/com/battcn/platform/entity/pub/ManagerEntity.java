@@ -1,6 +1,6 @@
 package com.battcn.platform.entity.pub;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -26,9 +26,8 @@ public class ManagerEntity implements java.io.Serializable
 	private String account;
 	private String password;
 	private String name;
-	private Integer logintimes;
 	private String lastloginip;
-	private Timestamp lastlogintime;
+	private Date lastlogintime;
 	@Column(name = "credentialsSalt")
 	private String credentialsSalt;
 	private String locked;
@@ -84,16 +83,6 @@ public class ManagerEntity implements java.io.Serializable
 		this.name = name;
 	}
 
-	public Integer getLogintimes()
-	{
-		return logintimes;
-	}
-
-	public void setLogintimes(Integer logintimes)
-	{
-		this.logintimes = logintimes;
-	}
-
 	public String getLastloginip()
 	{
 		return this.lastloginip;
@@ -104,12 +93,12 @@ public class ManagerEntity implements java.io.Serializable
 		this.lastloginip = lastloginip;
 	}
 
-	public Timestamp getLastlogintime()
+	public Date getLastlogintime()
 	{
 		return this.lastlogintime;
 	}
 
-	public void setLastlogintime(Timestamp lastlogintime)
+	public void setLastlogintime(Date lastlogintime)
 	{
 		this.lastlogintime = lastlogintime;
 	}
