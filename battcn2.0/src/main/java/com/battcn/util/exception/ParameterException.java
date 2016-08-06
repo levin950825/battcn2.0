@@ -1,5 +1,10 @@
 package com.battcn.util.exception;
 
+/**
+ * 代码业务异常类
+ * @author Administrator
+ *
+ */
 public class ParameterException extends RuntimeException
 {
 
