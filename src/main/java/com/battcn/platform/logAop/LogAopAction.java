@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import com.battcn.annotation.SystemLog;
-import com.battcn.platform.entity.pub.LogEntity;
+import com.battcn.platform.entity.pub.LogsEntity;
 import com.battcn.util.CommonUtil;
 import com.battcn.util.SessionUtil;
 import com.github.pagehelper.StringUtil;
@@ -52,7 +52,7 @@ public class LogAopAction
 	public void doAfterThrowing(JoinPoint point, Throwable e)
 	{
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-		LogEntity logForm = new LogEntity();
+		LogsEntity logForm = new LogsEntity();
 		Map<String, Object> map = null;
 		String accountName = null;
 		String ip = null;
@@ -100,7 +100,7 @@ public class LogAopAction
 		// 执行方法名
 		String methodName = point.getSignature().getName();
 		String className = point.getTarget().getClass().getSimpleName();
-		LogEntity logForm = new LogEntity();
+		LogsEntity logForm = new LogsEntity();
 		Map<String, Object> map = null;
 		String accountName = null;
 		Long start = 0L;

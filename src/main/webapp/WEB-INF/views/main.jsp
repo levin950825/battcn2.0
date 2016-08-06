@@ -11,14 +11,11 @@
 				<ol>
 					<li>完全响应式布局（支持电脑、平板、手机等所有主流设备）</li>
 					<li>基于最新版本的Bootstrap 3.3.4</li>
-					<li>提供3套不同风格的皮肤</li>
-					<li>支持多种布局方式</li>
-					<li>使用最流行的的扁平化设计</li>
-					<li>提供了诸多的UI组件</li>
-					<li>集成多款国内优秀插件，诚意奉献</li>
-					<li>提供盒型、全宽、响应式视图模式</li>
 					<li>采用HTML5 & CSS3</li>
 					<li>拥有良好的代码结构</li>
+					<li>通用的分页插件以及强大的通过Mapper</li>
+					<li>强大的POI的支持工具</li>
+					<li>最大程度减少程序猿的代码搬运,让您只需要关注处理业务</li>
 					<li style="color: red">完全免费开源,不会记录开发者任何信息</li>
 				</ol>
 			</div>
@@ -44,7 +41,7 @@
 				</p>
 				<hr>
 				<p>
-					如果需要赞助battcn_1.0，可直接付款到支付宝：<a href="javascript:void(0);">13002171912</a>，
+					如果需要赞助battcn_2.0，可直接付款到支付宝：<a href="javascript:void(0);">13002171912</a>，
 					收款人：<a href="javascript:void(0);">唐亚峰</a>。
 				</p>
 				<div class="alert alert-warning">
@@ -88,11 +85,29 @@
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h4 class="panel-title">
+										<a data-toggle="collapse" data-parent="#version" href="#v20">v2.0.0</a>
+										<code class="my-pull-right">2016.08.07</code>
+									</h4>
+								</div>
+								<div id="v20" class="panel-collapse collapse in">
+									<div class="panel-body">
+										<ol>
+											<li>代码优化</li>
+											<li>页面优化,权限选择更加简单</li>
+											<li>强大的POI工具类的支持,详情请参看API</li>
+											<li>修改权限操作,界面几乎不需要改动既可完成CRUD操作</li>
+										</ol>
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title">
 										<a data-toggle="collapse" data-parent="#version" href="#v14">v1.4.0</a>
 										<code class="my-pull-right">2016.04.12</code>
 									</h4>
 								</div>
-								<div id="v14" class="panel-collapse collapse in">
+								<div id="v14" class="panel-collapse collapse">
 									<div class="panel-body">
 										<ol>
 											<li>修改Shiro访问URL无法授权</li>
@@ -101,7 +116,6 @@
 									</div>
 								</div>
 							</div>
-
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h4 class="panel-title">
@@ -191,7 +205,7 @@
 				<button type="button" class="close" data-dismiss="alert">×</button>
 				<div style="font-size: 17px;">
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; battcn
-					有一个自己的网站空间,所有在学习和使用 battcn 系统的同志们捐助1元或2元就行( 街边吃顿都10元以上啊..... ), 以下是
+					有一个自己的网站空间,所有在学习和使用 battcn 系统的同志们可以加入到众筹的行列支持作者<b>（主要云服务器以及域名需要收费）</b>, 以下是
 					battcn 系统捐助的支付页面，由于空间网站需求收费，故此征集大家为 battcn 系统做一点贡献，有了你的支持，battcn
 					系统将做得更好，服务开源，献身开源！再次致谢 ！</div>
 				<span title="支付连接" style="font-size: 20px; color: blue;">支付宝账：13002171912</span><br>
@@ -215,79 +229,11 @@
 			</div>
 			<div class="ibox-content no-padding">
 				<ul class="list-group">
-					<li class="list-group-item"><span class="badge badge-primary">5</span>
-						烟火</li>
-					<li class="list-group-item "><span class="badge badge-info">10</span>
-						执璟</li>
-					<li class="list-group-item "><span class="badge badge-danger">50</span>
-						Joy</li>
-					<li class="list-group-item "><span class="badge badge-info">11</span>
-						土豆</li>
-					<li class="list-group-item "><span class="badge badge-info">5</span>
-						小齐</li>
-					<li class="list-group-item "><span class="badge badge-success">20</span>
-						江湖</li>
-					<li class="list-group-item "><span class="badge badge-info">5</span>
-						R</li>
-				</ul>
-			</div>
-		</div>
-	</div>
-	<div class="col-sm-2">
-		<div class="ibox float-e-margins">
-			<div class="ibox-title">
-				<h5>捐助列表</h5>
-				<div class="ibox-tools">
-					<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
-					</a> <a class="close-link"> <i class="fa fa-times"></i>
-					</a>
-				</div>
-			</div>
-			<div class="ibox-content no-padding">
-				<ul class="list-group">
-					<li class="list-group-item"><span class="badge badge-primary">5</span>
-						可乐加冰</li>
-					<li class="list-group-item "><span class="badge badge-primary">5</span>
-						捷</li>
-					<li class="list-group-item "><span class="badge badge-info">10</span>
-						流星</li>
-					<li class="list-group-item "><span class="badge badge-primary">6.8</span>
-						iMike</li>
-					<li class="list-group-item "><span class="badge badge-info">10</span>
-						阿铭</li>
-
-				</ul>
-			</div>
-		</div>
-	</div>
-	<div class="col-sm-2">
-		<div class="ibox float-e-margins">
-			<div class="ibox-title">
-				<h5>捐助列表</h5>
-				<div class="ibox-tools">
-					<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
-					</a> <a class="close-link"> <i class="fa fa-times"></i>
-					</a>
-				</div>
-			</div>
-			<div class="ibox-content no-padding">
-				<ul class="list-group">
-					<li class="list-group-item"><span class="badge badge-primary">20</span>
-						Sunny day</li>
-					<li class="list-group-item "><span class="badge badge-info">10</span>
-						念</li>
-					<li class="list-group-item "><span class="badge badge-info">10</span>
-						郭强</li>
-					<li class="list-group-item "><span class="badge badge-danger">50</span>
-						RyomaSaber</li>
-					<li class="list-group-item "><span class="badge badge-info">5</span>
-						卢正君</li>
-					<li class="list-group-item "><span class="badge badge-info">7</span>
-						江涛</li>
-					<li class="list-group-item "><span class="badge badge-info">5</span>
-						陆鸦</li>
-					<li class="list-group-item "><span class="badge badge-info">5</span>
-						阿毛</li>
+					<li class="list-group-item "><span class="badge badge-success">70</span>匿名哥</li>
+					<li class="list-group-item "><span class="badge badge-danger">50</span>RyomaSaber</li>		
+					<li class="list-group-item "><span class="badge badge-danger">50</span>Joy</li>
+					<li class="list-group-item "><span class="badge badge-success">20</span>江湖</li>
+					<li class="list-group-item"><span class="badge badge-primary">20</span>Sunny day</li>
 				</ul>
 			</div>
 		</div>

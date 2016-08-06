@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Table(name = "t_sys_logs")
-public class LogEntity implements java.io.Serializable
+public class LogsEntity implements java.io.Serializable
 {
 
 	private static final long serialVersionUID = -1285002170637971804L;
@@ -25,7 +25,7 @@ public class LogEntity implements java.io.Serializable
 	private String params;
 	private String url;
 
-	public LogEntity()
+	public LogsEntity()
 	{
 	}
 
