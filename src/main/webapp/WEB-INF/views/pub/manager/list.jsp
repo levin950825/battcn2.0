@@ -66,14 +66,14 @@
     });
 })
     
-      function stateFormatter(value, row, index) {
-        if (value) {
-        	return ' <i class="fa fa-check text-navy"></i> ';
-        }else{
-        	return '<i class="fa fa-close text-danger"></i> ';
-        }
-        return value;
+function stateFormatter(value, row, index) {
+    if (value == 1) {
+    	return '<i class="fa fa-check text-navy"></i>';
+    }else{
+    	return '<i class="fa fa-close text-danger"></i>';
     }
+    return value;
+}
 
 // 传递的参数
 function queryParams(params) {
@@ -87,15 +87,23 @@ function queryParams(params) {
 		pageNum : pageNum,
 		sort : sort,
 		order : order,
-		name:$("#name").val(),
-		sex:$("#sex").val()
+		name:$("#name").val()
 	}
 }
 //查询
+var serach = 0;
 battcn.admin.menu${OP.menu}.serach = function(){
-	 if($("#name").val() !='' ||$("#sex").val() !='' ){
+	 if($("#name").val() !=''){
 		 $('#admin_menu${OP.menu}_datagrid').bootstrapTable('refresh');
-	 }
+		 serach = 0;
+	 }else
+	 {
+		 if(serach == 0)
+		{
+			 $('#admin_menu${OP.menu}_datagrid').bootstrapTable('refresh');
+			 serach++;
+		}
+	}
  }
  
 
@@ -105,7 +113,7 @@ battcn.admin.menu${OP.menu}.add = function(){
 			title:'增加管理员',
 			href:rootPath + '/op_edit_${OP.menu}.shtml',
 			width:'50%',
-			height:'80%',
+			height:'60%',
 			okhandler:function(){
 				battcn.admin.menu${OP.menu}.save();
 			},
@@ -137,7 +145,7 @@ battcn.admin.menu${OP.menu}.edit = function(){
 			title:'编辑管理员',
 			href:rootPath + '/op_edit_${OP.menu}.shtml?id='+rows[0].id,
 			width:'50%',
-			height:'80%',
+			height:'60%',
 			okhandler:function(){
 				battcn.admin.menu${OP.menu}.save();
 			},
@@ -151,35 +159,33 @@ battcn.admin.menu${OP.menu}.edit = function(){
 	//删除
 	battcn.admin.menu${OP.menu}.remove = function(){ 
 		var rows =$('#admin_menu${OP.menu}_datagrid').bootstrapTable('getSelections');
-	if(rows.length==0){
-		battcn.toastrsAlert({
-		     code:'info',
-		     msg:'请选择你要删除的记录'
+		if(rows.length==0){
+			battcn.toastrsAlert({
+			     code:'info',
+			     msg:'请选择你要删除的记录'
+			});
+			return;
+		}
+		battcn.confirm(function(){
+			var ps = [];
+	    	$.each(rows,function(i,n){
+	    		ps.push(n.id);
+	    	});
+	    	$.ajax({
+	            type: 'post',
+	            url: rootPath + '/op_remove_${OP.menu}.shtml',
+	            data: {"ids":ps.join(",")},
+	            dataType: 'json',
+	            success: function (data) {
+	            	$('#admin_menu${OP.menu}_datagrid').bootstrapTable('refresh');
+	            	battcn.toastrsAlert({
+	              		 code: data.success ? 'success' :'error',
+	    		       	 msg: data.success ? '成功' :'失败'
+	         		});
+	            }
+	        });
 		});
-		return;
 	}
-	
-	battcn.confirm(function(){
-		var rows =$('#admin_menu${OP.menu}_datagrid').bootstrapTable('getSelections');
-		var ps = [];
-    	$.each(rows,function(i,n){
-    		ps.push(n.id);
-    	});
-    	$.ajax({
-            type: 'post',
-            url: rootPath + '/op_remove_${OP.menu}.shtml',
-            data: {"ids":ps.join(",")},
-            dataType: 'json',
-            success: function (data) {
-            	$('#admin_menu${OP.menu}_datagrid').bootstrapTable('refresh');
-            	battcn.toastrsAlert({
-       		     code:'success',
-       		     msg:'删除成功'
-       		});
-            }
-        });
-	});
-}
 </script>
 
 <div class="wrapper wrapper-content animated fadeInRight">

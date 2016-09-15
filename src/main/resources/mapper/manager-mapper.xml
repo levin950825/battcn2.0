@@ -8,7 +8,10 @@
 		 select t.managerid as id ,t.name ,t.account ,DATE_FORMAT(t.lastlogintime,'%Y-%m-%d %H:%i') as time,
 		 (select a.name from t_sys_role a where a.id = t.role ) as rolename ,
 		 (select a.code from t_sys_role a where a.id = t.role ) as rolecode , t.locked
-		 from t_sys_manager t  
+		 from t_sys_manager t  WHERE 1 = 1 
+		 <if test="name != null and name != ''">
+		 	AND t.name = #{name}
+		 </if>
 	</select>
 	<update id="update" parameterType="com.battcn.platform.entity.pub.ManagerEntity">
 			update t_sys_manager set lastloginip = #{lastloginip} ,lastlogintime = #{lastlogintime} 

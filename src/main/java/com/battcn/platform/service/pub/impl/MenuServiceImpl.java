@@ -1,13 +1,14 @@
 package com.battcn.platform.service.pub.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.alibaba.fastjson.JSONObject;
+import com.battcn.platform.entity.AjaxJson;
 import com.battcn.platform.entity.DataGrid;
 import com.battcn.platform.entity.pub.ManagerEntity;
 import com.battcn.platform.entity.pub.MenuEntity;
@@ -29,9 +30,12 @@ import com.github.pagehelper.PageInfo;
 public class MenuServiceImpl extends BaseService<MenuEntity> implements MenuService
 {
 
-	@Autowired AuthMapper authMapper;
-	@Autowired OperateMapper operateMapper;
-	@Autowired MenuMapper menuMapper;
+	@Autowired
+	AuthMapper authMapper;
+	@Autowired
+	OperateMapper operateMapper;
+	@Autowired
+	MenuMapper menuMapper;
 
 	@Override
 	public List<TreeNode> listTree(ManagerEntity manager)
@@ -40,11 +44,11 @@ public class MenuServiceImpl extends BaseService<MenuEntity> implements MenuServ
 		List<JSONObject> list = this.authMapper.getChildMenuInPermission(manager.getRole());
 		for (JSONObject obj : list)
 		{
-			if(StringUtils.isBlank(obj.getString("pid")))
+			if (StringUtils.isBlank(obj.getString("pid")))
 			{
 				TreeNode tree = new TreeNode();
-				List<TreeNode> listTree = createTree(list,obj.getString("id"));
-				if(listTree != null && listTree.size() > 0)
+				List<TreeNode> listTree = createTree(list, obj.getString("id"));
+				if (listTree != null && listTree.size() > 0)
 				{
 					tree.setId(obj.getString("id"));
 					tree.setText(obj.getString("name"));
@@ -59,12 +63,12 @@ public class MenuServiceImpl extends BaseService<MenuEntity> implements MenuServ
 		return trees;
 	}
 
-	private List<TreeNode> createTree(List<JSONObject> l,String pid)
+	private List<TreeNode> createTree(List<JSONObject> l, String pid)
 	{
 		List<TreeNode> trees = new ArrayList<TreeNode>();
 		for (JSONObject a : l)
 		{
-			if(pid.equals(a.getString("pid")))
+			if (pid.equals(a.getString("pid")))
 			{
 				TreeNode tree = new TreeNode();
 				tree.setId(a.getString("id"));
@@ -108,22 +112,34 @@ public class MenuServiceImpl extends BaseService<MenuEntity> implements MenuServ
 	}
 
 	@Override
-	public boolean saveOrUpdate(MenuEntity entity)
+	public AjaxJson saveOrUpdate(MenuEntity dto)
 	{
-		if (entity.getId() != null)
+		AjaxJson json = new AjaxJson();
+		Date date = new Date();
+		if (dto.getId() == null)
 		{
-			return this.updateByPrimaryKey(entity);
+			dto.setAddtime(date);
+			dto.setUpdatetime(date);
+			this.insertSelective(dto);
+		} else
+		{
+			dto.setUpdatetime(date);
+			this.updateByPrimaryKey(dto);
 		}
-		return this.insertSelective(entity);
+		this.menuMapper.treeNode();
+		json.setSuccess(true);
+		json.setMsg("保存成功！");
+		return json;
 	}
 
 	@Override
-	public void batchDeleteMenu(Integer[] ids)
+	public AjaxJson batchDeleteMenu(Integer[] ids)
 	{
-		for (int i = 0; i < ids.length; i++)
-		{
-			this.menuMapper.deleteMenu(ids[i]);
-		}
+		AjaxJson json = new AjaxJson();
+		super.batchDeleteByPrimaryKey(ids);
+		json.setSuccess(true);
+		json.setMsg("删除成功！");
+		return json;
 	}
 
 	@Override

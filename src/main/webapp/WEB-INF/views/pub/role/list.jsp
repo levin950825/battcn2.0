@@ -41,14 +41,14 @@
              } ]
      	});
     })
-
-//新增
+    
+    //新增
 battcn.admin.menu${OP.menu}.add = function(){
 	battcn.showWindow({
-			title:'增加管理员',
+			title:'增加角色',
 			href:'op_edit_${OP.menu}.shtml',
 			width:'800px',
-			height:'600px',
+			height:'500px',
 			okhandler:function(){
 				battcn.admin.menu${OP.menu}.save();
 			},
@@ -79,7 +79,7 @@ battcn.admin.menu${OP.menu}.edit = function(){
 			title:'编辑管理员',
 			href:rootPath + '/op_edit_${OP.menu}.shtml?id='+rows[0].id,
 			width:'800px',
-			height:'600px',
+			height:'500px',
 			okhandler:function(){
 				battcn.admin.menu${OP.menu}.save();
 			},
@@ -93,35 +93,34 @@ battcn.admin.menu${OP.menu}.edit = function(){
 	//删除
 	battcn.admin.menu${OP.menu}.remove = function(){
 		var rows =$('#admin_menu${OP.menu}_datagrid').bootstrapTable('getSelections');
-	if(rows.length==0){
-		 battcn.toastrsAlert({
-		     code:'info',
-		     msg:'请选择你要删除的记录'
+		if(rows.length==0){
+			 battcn.toastrsAlert({
+			     code:'info',
+			     msg:'请选择你要删除的记录'
+			});
+			return;
+		}
+		battcn.confirm(function(){
+			var rows =$('#admin_menu${OP.menu}_datagrid').bootstrapTable('getSelections');
+			var ps = [];
+		  	$.each(rows,function(i,n){
+		  		ps.push(n.id);
+		  	});
+		  	$.ajax({
+		          type: 'post',
+		          url: rootPath + '/op_remove_${OP.menu}.shtml',
+		          data: {"ids":ps.join(",")},
+		          dataType: 'json',
+		          success: function (data) {
+		          	$('#admin_menu${OP.menu}_datagrid').bootstrapTable('refresh');
+		          	battcn.toastrsAlert({
+	              		 code: data.success ? 'success' :'error',
+	    		       	 msg: data.success ? '成功' :'失败'
+	         		});
+		          }
+		    });
 		});
-		return;
 	}
-	
-	battcn.confirm(function(){
-		var rows =$('#admin_menu${OP.menu}_datagrid').bootstrapTable('getSelections');
-		var ps = [];
-  	$.each(rows,function(i,n){
-  		ps.push(n.id);
-  	});
-  	$.ajax({
-          type: 'post',
-          url: rootPath + '/op_remove_${OP.menu}.shtml',
-          data: {"ids":ps.join(",")},
-          dataType: 'json',
-          success: function (data) {
-          	$('#admin_menu${OP.menu}_datagrid').bootstrapTable('refresh');
-          	battcn.toastrsAlert({
-     		     code:'success',
-     		     msg:'删除成功'
-     		});
-          }
-      });
-	});
-}
 </script>
 <div class="wrapper wrapper-content animated fadeInRight">
 	<div class="ibox float-e-margins">

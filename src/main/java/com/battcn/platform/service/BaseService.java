@@ -39,10 +39,11 @@ public abstract class BaseService<T>
 
 	public void batchDeleteByPrimaryKey(Object ids[])
 	{
-		for (int i = 0; i < ids.length; i++)
-		{
-			deleteByPrimaryKey(ids[i]);
-		}
+		if (ids != null && ids.length > 0)
+			for (int i = 0; i < ids.length; i++)
+			{
+				deleteByPrimaryKey(ids[i]);
+			}
 	}
 
 	public T selectByPrimaryKey(Object key)

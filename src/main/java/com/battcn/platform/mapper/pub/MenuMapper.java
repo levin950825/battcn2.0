@@ -10,4 +10,5 @@ public interface MenuMapper extends Mapper<MenuEntity>
 {
 	MenuEntity findMenuByPrimaryKey(@Param("id")Integer id);
 	void deleteMenu(Integer id);
+	void treeNode();
 }

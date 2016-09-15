@@ -48,14 +48,14 @@ public class ManagerServiceImpl extends BaseService<ManagerEntity> implements
 	}
 
 	@Override
-	public PageInfo<JSONObject> queryManagerForList(DataGrid grid)
+	public PageInfo<JSONObject> queryManagerForList(DataGrid grid,String name)
 	{
 		if (StringUtils.isNotEmpty(grid.getSort()))
 		{
 			PageHelper.orderBy(grid.getSort() + "   "+ grid.getOrder());
 		}
 		PageHelper.startPage(grid.getPageNum(), grid.getPageSize());
-		return new PageInfo<JSONObject>(this.managerMapper.queryManagerForList());
+		return new PageInfo<JSONObject>(this.managerMapper.queryManagerForList(name));
 	}
 
 	@Override

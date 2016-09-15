@@ -104,6 +104,7 @@
 		<location>/WEB-INF/exception/404.jsp</location>
 	</error-page>
 	<welcome-file-list>
+		<welcome-file>index.shtml</welcome-file>
 		<welcome-file>login.shtml</welcome-file>
 	</welcome-file-list>
 </web-app>
