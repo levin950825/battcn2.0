@@ -66,7 +66,6 @@ public class ManagerController extends BaseController
 	@ResponseBody
 	public AjaxJson save(@ModelAttribute(value = "dto") ManagerEntity dto) throws Exception
 	{
-		
 		return this.managerService.save(dto);
 	}
 

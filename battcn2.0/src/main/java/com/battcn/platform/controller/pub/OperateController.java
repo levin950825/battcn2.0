@@ -19,13 +19,11 @@ import com.github.pagehelper.PageInfo;
 public class OperateController extends BaseController
 {
 
-	
 	@Autowired OperateService operateService;
 	
 	@RequestMapping(value = "/list")
 	public String list(Model model)
 	{
-		//super.toolbar(model);
 		return "pub/operate/list";
 	}
 	
@@ -39,7 +37,6 @@ public class OperateController extends BaseController
 	@RequestMapping(value = "/edit")
 	public String edit(OperateEntity dto, Model model)
 	{
-		//super.editToolbar(model);
 		if (dto != null)
 		{
 			model.addAttribute("dto", this.operateService.findByOperate(dto));
