@@ -18,4 +18,10 @@ public class LogsServiceImpl extends BaseService<LogsEntity> implements LogsServ
 		return super.queryForDataGrid(grid);
 	}
 
+	@Override
+	public boolean insert(LogsEntity entity)
+	{
+		return super.insertSelective(entity);
+	}
+
 }

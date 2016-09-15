@@ -42,7 +42,8 @@
                  title: '操作时间',
                  align: 'left',
                  valign: 'top',            
-                 sortable: true
+                 sortable: true,
+                 formatter:function(value,row,index){return new Date(value).pattern("yyyy-MM-dd HH:mm:ss")}
              }, {
                  field: 'ip',
                  title: 'IP',
