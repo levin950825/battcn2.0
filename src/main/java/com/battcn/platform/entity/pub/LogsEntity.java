@@ -1,6 +1,6 @@
 package com.battcn.platform.entity.pub;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -20,10 +20,12 @@ public class LogsEntity implements java.io.Serializable
 	private String account;
 	private String title;
 	private String message;
-	private Timestamp optime;
+	private Date optime;
 	private String ip;
 	private String params;
 	private String url;
+	private Long duration;
+	private String methods;
 
 	public LogsEntity()
 	{
@@ -69,12 +71,12 @@ public class LogsEntity implements java.io.Serializable
 		this.message = message;
 	}
 
-	public Timestamp getOptime()
+	public Date getOptime()
 	{
 		return this.optime;
 	}
 
-	public void setOptime(Timestamp optime)
+	public void setOptime(Date optime)
 	{
 		this.optime = optime;
 	}
@@ -108,5 +110,26 @@ public class LogsEntity implements java.io.Serializable
 	{
 		this.url = url;
 	}
+
+	public Long getDuration()
+	{
+		return duration;
+	}
+
+	public void setDuration(Long duration)
+	{
+		this.duration = duration;
+	}
+
+	public String getMethods()
+	{
+		return methods;
+	}
+
+	public void setMethods(String methods)
+	{
+		this.methods = methods;
+	}
+	
 
 }

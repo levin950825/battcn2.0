@@ -1,9 +1,12 @@
 package com.battcn.platform.logAop;
 
 import java.lang.reflect.Method;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -12,29 +15,35 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
 import com.battcn.annotation.SystemLog;
 import com.battcn.platform.entity.pub.LogsEntity;
+import com.battcn.platform.service.pub.LogsService;
 import com.battcn.util.CommonUtil;
 import com.battcn.util.SessionUtil;
+import com.battcn.util.http.RequestUtils;
 import com.github.pagehelper.StringUtil;
 
 /**
  * 切点类
  */
-@Aspect	
+@Aspect
 @Component
 public class LogAopAction
 {
 	// 本地异常日志记录对象
 	private static final Logger logger = LoggerFactory.getLogger(LogAopAction.class);
 
+	@Autowired LogsService logsService;
+
 	/**
 	 * Controller 拦截点,前置通知
 	 */
-	@Pointcut("@annotation(com.battcn.platform.annotation.SystemLog)")
+	@Pointcut("@annotation(com.battcn.annotation.SystemLog)")
 	public void beforeController()
 	{
 	}
@@ -51,7 +60,8 @@ public class LogAopAction
 	@AfterThrowing(pointcut = "beforeController()", throwing = "e")
 	public void doAfterThrowing(JoinPoint point, Throwable e)
 	{
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+				.getRequest();
 		LogsEntity logForm = new LogsEntity();
 		Map<String, Object> map = null;
 		String accountName = null;
@@ -79,7 +89,16 @@ public class LogAopAction
 
 		try
 		{
-			
+			logForm.setUrl(RequestUtils.getURI(request));
+			logForm.setAccount(accountName);
+			logForm.setTitle(String.valueOf(map.get("module")));
+			logForm.setMethods(String.valueOf(map.get("methods")));
+			logForm.setMessage(String.valueOf(map.get("description")));
+			logForm.setDuration(0L);
+			logForm.setIp(ip);
+			logForm.setOptime(new Date());
+			logForm.setIp(ip);
+			logsService.insert(logForm);
 		} catch (Exception e1)
 		{
 			e1.printStackTrace();
@@ -95,7 +114,8 @@ public class LogAopAction
 	@Around("beforeController()")
 	public Object doController(ProceedingJoinPoint point)
 	{
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+				.getRequest();
 		Object result = null;
 		// 执行方法名
 		String methodName = point.getSignature().getName();
@@ -126,7 +146,6 @@ public class LogAopAction
 		{
 			accountName = "无法获取登录用户信息！";
 		}
-		// 当前用户
 		try
 		{
 			map = getControllerMethodDescription(point);
@@ -139,15 +158,31 @@ public class LogAopAction
 		{
 			throw new RuntimeException(e);
 		}
+		// 当前用户
 		try
 		{
-		
-		
-		} catch (Exception e)
+
+			logger.debug("=====通知开始=====");
+			logger.debug("请求方法:{}", className + "." + methodName + "()");
+			logger.debug("方法描述:{}", map);
+			logger.debug("请求IP:{}", ip);
+			logger.debug("=====通知结束=====");
+			logForm.setUrl(RequestUtils.getURI(request));
+			logForm.setAccount(accountName);
+			logForm.setTitle(String.valueOf(map.get("module")));
+			logForm.setMethods(String.valueOf(map.get("methods")));
+			logForm.setMessage(String.valueOf(map.get("description")));
+			logForm.setDuration(time);
+			logForm.setIp(ip);
+			logForm.setOptime(new Date());
+			logForm.setIp(ip);
+			logsService.insert(logForm);
+		} catch (Throwable e)
 		{
 			// 记录本地异常日志
 			logger.error("====通知异常====");
 			logger.error("异常信息:", e.getMessage());
+			throw new RuntimeException(e);
 		}
 		return result;
 	}

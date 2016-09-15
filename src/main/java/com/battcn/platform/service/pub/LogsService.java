@@ -7,4 +7,5 @@ import com.github.pagehelper.PageInfo;
 public interface LogsService
 {
 	PageInfo<LogsEntity> queryLogsForList(DataGrid grid);
+	public boolean insert(LogsEntity entity);
 }
