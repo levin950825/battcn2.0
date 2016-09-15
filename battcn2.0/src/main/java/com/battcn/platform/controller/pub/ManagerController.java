@@ -16,29 +16,13 @@ import com.battcn.platform.entity.pub.ManagerEntity;
 import com.battcn.platform.service.pub.ManagerService;
 import com.github.pagehelper.PageInfo;
 
-/**
- * @author hetao 用户管理
- * 
- */
 @Controller
 @RequestMapping("/pub/manager")
 public class ManagerController extends BaseController
 {
-
 	@Autowired
 	private ManagerService managerService;
 
-	@RequestMapping(value = "/hasAccount")
-	@ResponseBody
-	public AjaxJson hasAccount(String account)
-	{
-		AjaxJson j = new AjaxJson();
-		if (managerService.selectByAccount(account) == null)
-		{
-			j.setSuccess(true);
-		}
-		return j;
-	}
 	@RequestMapping(value = "/list")
 	public String list(Model model)
 	{
