@@ -34,6 +34,17 @@ public class RoleServiceImpl extends BaseService<RoleEntity> implements
 	public AjaxJson save(RoleEntity dto)
 	{
 		AjaxJson json = new AjaxJson();
+		if(dto.getId() != null)
+		{
+			// add 
+			super.insertSelective(dto);
+		}else
+		{
+			// update 
+			super.updateByPrimaryKey(dto);
+		}
+		json.setSuccess(true);
+		json.setMsg("保存成功！");
 		return json;
 	}
 

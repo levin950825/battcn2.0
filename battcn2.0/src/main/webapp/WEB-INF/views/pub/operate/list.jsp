@@ -115,10 +115,16 @@ battcn.admin.menu${OP.menu}.edit = function(){
 	
 	//删除
 	battcn.admin.menu${OP.menu}.remove = function(){
-		var rows =$('#admin_menu${OP.menu}_datagrid').bootstrapTable('getSelections');
-		if(rows.length==0)battcn.msg(msg.remove);return;
+		console.info(0);
+		var rows = $('#admin_menu${OP.menu}_datagrid').bootstrapTable('getSelections');
+		if(rows.length==0){
+			 battcn.toastrsAlert({
+			     code:'info',
+			     msg:'请选择你要删除的记录'
+			});
+			return;
+		}
 		battcn.confirm(function(){
-			var rows =$('#admin_menu${OP.menu}_datagrid').bootstrapTable('getSelections');
 			var ps = [];
 	    	$.each(rows,function(i,n){
 	    		ps.push(n.menu+"-"+n.op);
@@ -130,7 +136,10 @@ battcn.admin.menu${OP.menu}.edit = function(){
 	            dataType: 'json',
 	            success: function (data) {
 	            	$('#admin_menu${OP.menu}_datagrid').bootstrapTable('refresh');
-	            	battcn.msg(data.msg);
+	              	battcn.toastrsAlert({
+	              		 code: data.success ? 'success' :'error',
+	    		       	 msg: data.success ? '成功' :'失败'
+	         		});
 	            }
 	        });
 		});

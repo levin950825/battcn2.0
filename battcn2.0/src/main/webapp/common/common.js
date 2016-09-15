@@ -79,7 +79,7 @@
 				shade : 0.5,
 				maxmin:true,
 				area : [width,height],
-				content : str,
+				content : href,
 				btn : ['提交','取消'],
 				yes : options.okhandler,
 				chanel : options.cancelhandler
@@ -139,6 +139,15 @@
 		s[8] = s[13] = s[18] = s[23] = '-';
 		return s.join('');
 	};
+	
+	battcn.reloadDiv = function (url){
+		var o = layer.load();
+			 $('.J_box[data-id="' + url + '"]').html('<div class="loading">加载中,请稍等。。<div>');
+   		     $('.J_box[data-id="' + url + '"]').loadUrl(url,'get',{},function(data) {
+				layer.close(o);
+				$('.J_box[data-id="' + url + '"]').find("div.loading").remove();
+			}); 
+	}
 	
 	
 	battcn.init = function (){

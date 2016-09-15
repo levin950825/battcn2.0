@@ -57,9 +57,9 @@ public class ManagerController extends BaseController
 
 	@RequestMapping(value = "/query")
 	@ResponseBody
-	public PageInfo<JSONObject> listview(DataGrid grid)
+	public PageInfo<JSONObject> listview(DataGrid grid,String name)
 	{
-		return this.managerService.queryManagerForList(grid);
+		return this.managerService.queryManagerForList(grid,name);
 	}
 
 	@RequestMapping(value = "/save")

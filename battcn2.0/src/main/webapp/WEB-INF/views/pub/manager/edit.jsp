@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="battcn" uri="http://www.battcn.com/tags"%>
 <script type="text/javascript">
@@ -28,8 +29,18 @@
 </script>
 <div class="ibox float-e-margins animated fadeInRight">
 	<div class="ibox-content">
-		<form class="form-horizontal m-t required-validate" id="menu${OP.menu}Form" action="op_save_${OP.menu}.shtml" method="post">
+		<form class="form-horizontal m-t required-validate"
+			id="menu${OP.menu}Form" action="op_save_${OP.menu}.shtml"
+			method="post">
 			<input type="hidden" name="managerid" value="${dto.managerid}" />
+			<div class="form-group">
+				<label class="col-sm-3 control-label">姓名：</label>
+				<div class="col-sm-8">
+					<input name="name" class="form-control" type="text"
+						value="${dto.name}"
+						validate="{required:true,messages:{required:'请填写姓名'}}">
+				</div>
+			</div>
 			<div class="form-group">
 				<label class="col-sm-3 control-label">帐号：</label>
 				<div class="col-sm-8">
@@ -50,7 +61,8 @@
 				<div class="col-sm-8">
 					<select class="form-control m-b" name="role">
 						<option value="">请选择角色</option>
-						<battcn:list var="m" namespace="com.battcn.platform.mapper.pub.RoleMapper.listRoleByscort">
+						<battcn:list var="m"
+							namespace="com.battcn.platform.mapper.pub.RoleMapper.listRoleByscort">
 							<option value="${m.id}"
 								<c:if test="${m.id == dto.role}" >selected</c:if>>${m.name}
 							</option>
@@ -71,14 +83,7 @@
 				<div class="col-sm-8">
 					<input name="rePassword" class="form-control" type="password"
 						validate="{<c:if test="${empty dto.managerid}">required:true,</c:if>equalTo:'#password',messages:{<c:if test="${empty dto.managerid}">required:'请填写重复密码',</c:if>equalTo:'两次密码输入不一致'}}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label">姓名：</label>
-				<div class="col-sm-8">
-					<input name="name" class="form-control" type="text"
-						value="${dto.name}"
-						validate="{required:true,messages:{required:'请填写姓名'}}">
+					<span style="color: red;">不填为则不修改密码</span>
 				</div>
 			</div>
 			<div class="form-group">

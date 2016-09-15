@@ -12,7 +12,7 @@ public interface ManagerService
 
 	public ManagerEntity selectByPrimaryKey(Long key);
 
-	PageInfo<JSONObject> queryManagerForList(DataGrid grid);
+	PageInfo<JSONObject> queryManagerForList(DataGrid grid,String name);
 
 	AjaxJson batchDelete(Long[] ids);
 

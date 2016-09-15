@@ -23,17 +23,10 @@ public class MenuController extends BaseController
 	@RequestMapping(value = "/list")
 	public String list(Model model,DataGrid grid) throws Exception
 	{
-		//super.toolbar(model);
 		model.addAttribute("page", this.menuService.queryForDataGrid(grid));
 		return "pub/menu/list";
 	}
 	
-	@RequestMapping(value = "/add")
-	public String add(Model model)
-	{
-		return "pub/menu/edit";
-	}
-
 	@RequestMapping(value = "/edit")
 	public String edit(Integer id, ModelMap model) throws Exception
 	{
@@ -48,38 +41,13 @@ public class MenuController extends BaseController
 	@ResponseBody
 	public AjaxJson save(@ModelAttribute("dto") MenuEntity entity)
 	{
-		AjaxJson json = new AjaxJson();
-		try
-		{
-			json.setMsg("保存失败！");
-			if(entity != null)
-			{
-				this.menuService.saveOrUpdate(entity);
-				json.setSuccess(true);
-				json.setMsg("保存成功！");
-			}
-		} catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		return json;
+		return this.menuService.saveOrUpdate(entity);
 	}
 
 	@RequestMapping(value = "/remove")
 	@ResponseBody
 	public AjaxJson del(Integer[] ids)
 	{
-		AjaxJson json = new AjaxJson();
-		try
-		{
-			this.menuService.batchDeleteMenu(ids);
-			json.setSuccess(true);
-			json.setMsg("删除成功！");
-		} catch (Exception e)
-		{
-			e.printStackTrace();
-			json.setMsg("删除失败！");
-		}
-		return json;
+		return this.menuService.batchDeleteMenu(ids);
 	}
 }

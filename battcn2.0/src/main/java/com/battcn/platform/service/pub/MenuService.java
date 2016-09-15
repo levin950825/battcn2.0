@@ -3,6 +3,7 @@ package com.battcn.platform.service.pub;
 import java.util.List;
 
 import com.alibaba.fastjson.JSONObject;
+import com.battcn.platform.entity.AjaxJson;
 import com.battcn.platform.entity.DataGrid;
 import com.battcn.platform.entity.pub.ManagerEntity;
 import com.battcn.platform.entity.pub.MenuEntity;
@@ -18,6 +19,6 @@ public interface MenuService
 	public List<MenuEntity> queryMenuByUserId(Long userId);
 	public List<JSONObject> getAll();
 	public MenuEntity findMenuByPrimaryKey(Integer key);
-	boolean saveOrUpdate(MenuEntity entity);
-	void batchDeleteMenu(Integer[] ids);
+	AjaxJson saveOrUpdate(MenuEntity entity);
+	AjaxJson batchDeleteMenu(Integer[] ids);
 }

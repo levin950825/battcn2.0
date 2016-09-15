@@ -295,7 +295,7 @@
 				<version>6.1.26</version>
 				<configuration>
 					<webAppConfig>
-						<contextPath>/</contextPath>
+						<contextPath>/battcn</contextPath>
 					</webAppConfig>
 					<!-- 每3秒的间隔扫描一次,实现热部署 -->
 					<scanIntervalSeconds>3</scanIntervalSeconds>

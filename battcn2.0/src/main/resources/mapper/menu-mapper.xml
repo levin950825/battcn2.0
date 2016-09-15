@@ -14,4 +14,7 @@
          select * from t_sys_menu t order by t.scort
 	 </select>
 	
+	<select id="treeNode">
+		call showTreeNodes_menu();
+	</select>
 </mapper>

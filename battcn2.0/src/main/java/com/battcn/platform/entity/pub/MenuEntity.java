@@ -3,6 +3,10 @@ package com.battcn.platform.entity.pub;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -11,7 +15,10 @@ public class MenuEntity implements java.io.Serializable
 {
 	@Transient
 	private static final long serialVersionUID = 3487796343353286350L;
-
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", unique = true, nullable = false)
 	private Integer id;
 	private Integer pid;
 	private String name;
