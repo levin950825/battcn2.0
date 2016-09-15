@@ -92,6 +92,7 @@ public abstract class BaseService<T>
 	{
 		String sort = grid.getSort();
 		String order = grid.getOrder();
+		PageHelper.startPage(grid.getPageNum(), grid.getPageSize());
 		if (StringUtil.isNotEmpty(sort))
 		{
 			PageHelper.orderBy(sort + " " + order);

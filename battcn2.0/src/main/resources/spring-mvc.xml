@@ -21,6 +21,8 @@
   	<context:annotation-config /> 
 	<context:component-scan base-package="com.battcn.platform.controller" />
 	<context:component-scan base-package="com.battcn.platform.logAop" />
+	<!-- 2.0.8版本后加上了@Controller 里面只要在 -->
+	<!-- <context:component-scan base-package="org.jeecgframework.poi.excel.view"> -->
 
 	<!-- 启动对@AspectJ注解的支持 通知spring使用cglib而不是jdk的来生成代理方法 AOP可以拦截到Controller -->
 	<aop:aspectj-autoproxy proxy-target-class="true" />

@@ -1,5 +1,7 @@
 package com.battcn.platform.service.pub.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.battcn.platform.entity.DataGrid;
@@ -22,6 +24,12 @@ public class LogsServiceImpl extends BaseService<LogsEntity> implements LogsServ
 	public boolean insert(LogsEntity entity)
 	{
 		return super.insertSelective(entity);
+	}
+
+	@Override
+	public List<LogsEntity> exportLogExcel()
+	{
+		return super.queryObjectForList();
 	}
 
 }
