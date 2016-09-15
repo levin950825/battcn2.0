@@ -8,7 +8,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.jeecgframework.poi.excel.annotation.Excel;
+import org.jeecgframework.poi.excel.annotation.ExcelTarget;
+
 @Table(name = "t_sys_logs")
+@ExcelTarget("courseEntity")
 public class LogsEntity implements java.io.Serializable
 {
 
@@ -17,14 +21,21 @@ public class LogsEntity implements java.io.Serializable
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
 	private Integer id;
+	@Excel(name = "账号")
 	private String account;
+	@Excel(name = "模块",width=15)
 	private String title;
+	@Excel(name = "详情")
 	private String message;
 	private Date optime;
+	@Excel(name = "操作者IP",width=20)
 	private String ip;
 	private String params;
+	@Excel(name = "请求地址",width=35)
 	private String url;
+	@Excel(name = "方法耗时",width=10)
 	private Long duration;
+	@Excel(name = "执行方法")
 	private String methods;
 
 	public LogsEntity()

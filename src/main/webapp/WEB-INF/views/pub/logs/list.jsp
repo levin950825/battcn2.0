@@ -57,11 +57,37 @@
                  sortable: true
              } ]      
 	     });
+    	 
+    	// 传递的参数
+    	 function queryParams(params) {
+    	 	var pageSize = params.limit;
+    	 	var sort = params.sort;
+    	 	var offset = params.offset;
+    	 	var order = params.order;
+    	 	var pageNum = offset / pageSize + 1;
+    	 	return {
+    	 		pageSize : pageSize,
+    	 		pageNum : pageNum,
+    	 		sort : sort,
+    	 		order : order
+    	 	}
+    	 }
+    	 
+   		//删除
+   		battcn.admin.menu${OP.menu}.export = function(){ 
+   			battcn.confirm(function(){
+   		    	$.get(rootPath + "/op_export_${OP.menu}.shtml",function(){
+   		    		
+   		    	});
+   			});
+   		}
+    	 
 	});
 </script>
 <div class="wrapper wrapper-content animated fadeInRight">
 	<div class="ibox float-e-margins">
 		<div class="ibox-content">
+		<%@ include file="/WEB-INF/views/common/toolbar.jsp"%>
 			<div class="table-responsive">
 				<table id="admin_menu${OP.menu}_datagrid" data-toolbar="#toolbar"
 					data-show-refresh="true" data-show-toggle="true"
