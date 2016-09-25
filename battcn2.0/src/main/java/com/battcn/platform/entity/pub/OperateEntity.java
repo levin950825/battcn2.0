@@ -8,7 +8,7 @@ public class OperateEntity implements java.io.Serializable
 {
 	@Transient
 	private static final long serialVersionUID = 1564785593898723239L;
-	
+	private Integer id;
 	private Integer menu;
 	private String op;
 	private String name;
@@ -17,6 +17,7 @@ public class OperateEntity implements java.io.Serializable
 	private Integer ordno;
 	private Integer isshow;
 
+	
 	public OperateEntity()
 	{
 	}
@@ -25,6 +26,18 @@ public class OperateEntity implements java.io.Serializable
 	{
 		this.menu = menu;
 		this.op = op;
+	}
+
+	
+	
+	public Integer getId()
+	{
+		return id;
+	}
+
+	public void setId(Integer id)
+	{
+		this.id = id;
 	}
 
 	public Integer getMenu()

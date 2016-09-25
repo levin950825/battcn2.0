@@ -1,34 +1,59 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <script type="text/javascript">
-		var setting = {
-			check: {
-				enable: true
-			},
-			data: {
-				simpleData: {
-					enable: true
+ 		var operates = [
+		                <c:forEach var="m" varStatus="n" items="${ops}">
+		                <c:if test="${n.index != 0}">,</c:if> 
+		                  '${m.op_id}'
+		               </c:forEach>
+		];
+ 		
+ 		
+		$(function() {
+			console.info(operates);
+			IDMark_A = "_a";
+			/* 初始化功能树 */
+			//ztree树  view回调方法 ：能够自定义树 追加内容
+			$.fn.zTree.init($('#menuTree'), {
+				data : {
+					simpleData : {
+						enable : true
+					}
+				},
+				view: {
+					addDiyDom: function(treeId, treeNode) {
+						var aObj = $("#" + treeNode.tId + IDMark_A);
+						var html = [];
+						for(var i=0;i<treeNode.operates.length;i++) {
+							var op = treeNode.operates[i];
+							var span = "<font style='margin-top:3px;'>"+op.name+"</font>";
+							html.push(" <label><input class=\"operates\" type=\"checkbox\" name=\"operates\" value=\""+op.id+"\""+($.inArray(op.id,operates)!=-1?" checked":"")+"/>"+span+"</label>");
+						}
+						aObj.after(html.join(""));
+					}
+				},
+				callback : {
+					onClick : function(event, treeId, treeNode, clickFlag) {
+						//
+					}
 				}
-			}
-		};
-		var zNodes =[
-	  			{ id:1, pId:0, name:"系统管理", open:true,checked:true},
-	  			{ id:11, pId:1, name:"菜单管理",checked:true},
-	  			{ id:111, pId:11, name:"添加"},
-	  			{ id:112, pId:11, name:"删除",checked:true},
-	  			{ id:113, pId:11, name:"修改",checked:true},
-	  			{ id:12, pId:1, name:"账号管理"},
-	  			{ id:121, pId:12, name:"添加"},
-	  			{ id:122, pId:12, name:"删除"},
-	  			{ id:123, pId:12, name:"修改"},
-	  		];
-		$(document).ready(function(){
-			$.fn.zTree.init($("#menuTree"),setting,zNodes);
-		});
+			}, [ 
+			<c:forEach varStatus="in" var="m" items="${menus}">
+			  <c:if test="${in.index != 0}">,</c:if>{
+				    "id" : '${m.id}',
+					"pId" : '${m.pId}',
+					"name" : "${m.name}",
+					"open" : true,
+					"operates" : [
+					    <c:forEach varStatus="oi" var="o" items="${m.operates}">
+					    <c:if test="${oi.index != 0}">,</c:if>
+					    {"id" : '${o.id}', "name" : '${o.name}'}
+						</c:forEach>   
+					]
+				}
+			 </c:forEach>    
+			]);
 		
-		$(function(){
 		  	battcn.admin.menu${OP.menu}.save = function(obj) {
 		  		if($("#menu${OP.menu}Form").valid()){
 		  			$.ajax({
@@ -57,7 +82,6 @@
 			id="menu${OP.menu}Form" action="op_save_${OP.menu}.action"
 			method="post">
 			<input type="hidden" name="id" value="${dto.id}" />
-
 			<div class="form-group">
 				<label class="col-sm-3 control-label">角色名称：</label>
 				<div class="col-sm-8">
@@ -82,19 +106,15 @@
 					</c:choose>
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label">权限：</label>
-				<div class="col-sm-8">
-					<div style="width: 470px; height: auto; overflow: auto; border-width: 1px; border-color: #ccc; border-style: solid; padding: 1px;">
-						<div id="menuTree" class="ztree">
-							
-						</div>
+			 <div class="form-group">
+                 <label class="col-sm-3 control-label">权限：</label>
+                 <div class="col-sm-8" >
+                     <div  style="width: 470px; height:auto ; overflow: auto; border-width: 1px; border-color: #ccc; border-style: solid; padding: 1px;">
+						<div id="menuTree" class="ztree"></div>
 					</div>
-					<!-- <label><input id="checkAll"
-						onclick="javascript:$('.operates').prop('checked',($(this).prop('checked') ? true : false ));"
-						type="checkbox" />全选/不选 </label> -->
-				</div>
-			</div>
+					<label><input id="checkAll"  onclick="javascript:$('.operates').prop('checked',($(this).prop('checked') ? true : false ));"   type="checkbox" />全选/不选 </label>
+				 </div>
+             </div>
 			<div class="form-group">
 				<label class="col-sm-3 control-label">备注：</label>
 				<div class="col-sm-8">

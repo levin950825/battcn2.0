@@ -17,15 +17,17 @@ import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.util.WebUtils;
 
 /**
- * <p>User: bigbomb
- * <p>Date: 15-9-15
- * <p>Version: 1.0
+ * 
+ * @ClassName: KickoutSessionControlFilter
+ * @Description: 反冲会话,就是只允许同一个账号5个登陆者 超出踢人
+ * @author 唐亚峰
+ * @date 2016年9月18日
  */
 public class KickoutSessionControlFilter extends AccessControlFilter {
 
     private String kickoutUrl; //踢出后到的地址
     private boolean kickoutAfter = false; //踢出之前登录的/之后登录的用户 默认踢出之前登录的用户
-    private int maxSession = 1; //同一个帐号最大会话数 默认1
+    private int maxSession = 5; //同一个帐号最大会话数 默认5
 
     private SessionManager sessionManager;
     private Cache<String, Deque<Serializable>> cache;
