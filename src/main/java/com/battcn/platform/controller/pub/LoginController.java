@@ -100,7 +100,9 @@ public class LoginController
 	@RequestMapping("logout")
 	public String logout()
 	{
-		SecurityUtils.getSubject().logout();
+		Subject sub = SecurityUtils.getSubject();
+		if(sub != null)
+			sub.logout();
 		return "redirect:/login.shtml";
 	}
 
