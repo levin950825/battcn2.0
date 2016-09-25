@@ -101,8 +101,14 @@ public class LoginController
 	public String logout()
 	{
 		Subject sub = SecurityUtils.getSubject();
-		if(sub != null)
-			sub.logout();
+		try
+		{
+			if(sub != null)
+				sub.logout();
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 		return "redirect:/login.shtml";
 	}
 
