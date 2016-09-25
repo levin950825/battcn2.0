@@ -7,6 +7,12 @@
 		 select * from t_sys_role order by id 
 	</select>
 	
-	
-	
+	 <select id="getRoleOperate" resultType="com.alibaba.fastjson.JSONObject">
+	  	select t1.*,t2.op,t2.menu from t_sys_role_operate t1 JOIN t_sys_operate t2 ON t1.op_id = t2.id  where t1.role = #{role} 
+	 </select>
+	 
+	 <delete id="deleteOperateByRole" parameterType="Integer">
+	 	 delete from  t_sys_role_operate where role = #{role}
+	  </delete>
+	  
 </mapper>

@@ -1,13 +1,12 @@
 package com.battcn.platform.controller.pub;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.battcn.platform.controller.BaseController;
 import com.battcn.platform.entity.AjaxJson;
 import com.battcn.platform.entity.DataGrid;
@@ -33,22 +32,13 @@ public class RoleController extends BaseController
 	}
 
 	@RequestMapping(value = "/edit")
-	public String edit(Integer id, HttpServletRequest request,
-			HttpServletResponse response, ModelMap model)
+	public String edit(Integer id,Model model)
 	{
 		if (id != null)
 		{
-			// RoleEntity dto = roleService.findByPrimaryKey(id);
-			// model.addAttribute("dto", dto);
-			// Map map = new HashMap();
-			// map.put("role", dto.getId());
-			// List<Map> list =
-			// this.roleService.queryForListByMybatis("RoleMapper.getRoleOperate",
-			// map);
-			// model.addAttribute("operates", list);
+			this.roleService.getRoleOperate(model, id);
 		}
-		// List<Map> menus = new ArrayList<Map>();
-		// model.addAttribute("menus", menuService.getAll());
+		model.addAttribute("menus", menuService.getAll());
 		return "pub/role/edit";
 	}
 
@@ -61,10 +51,10 @@ public class RoleController extends BaseController
 
 	@RequestMapping(value = "/save")
 	@ResponseBody
-	public AjaxJson save(String[] operates,
+	public AjaxJson save(Integer[] operates,
 			@ModelAttribute("dto") RoleEntity dto)
 	{
-		return this.roleService.save(dto);
+		return this.roleService.save(dto,operates);
 	}
 
 	@RequestMapping(value = "/remove")

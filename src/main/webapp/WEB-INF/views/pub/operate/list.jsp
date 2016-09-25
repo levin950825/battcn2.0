@@ -79,7 +79,7 @@ battcn.admin.menu${OP.menu}.add = function(){
 			title:'增加操作',
 			href:rootPath + '/op_edit_${OP.menu}.shtml',
 			width:'50%',
-			height:'80%',
+			height:'70%',
 			okhandler:function(){
 				battcn.admin.menu${OP.menu}.save();
 			},
@@ -100,7 +100,7 @@ battcn.admin.menu${OP.menu}.edit = function(){
 				title:'编辑操作',
 				href:rootPath + '/op_edit_${OP.menu}.shtml?menu='+rows[0].menu+'&op='+rows[0].op,
 				width:'50%',
-				height:'80%',
+				height:'70%',
 				okhandler:function(){
 					battcn.admin.menu${OP.menu}.save();
 				},

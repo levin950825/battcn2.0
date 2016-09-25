@@ -47,8 +47,8 @@ battcn.admin.menu${OP.menu}.add = function(){
 	battcn.showWindow({
 			title:'增加角色',
 			href:'op_edit_${OP.menu}.shtml',
-			width:'800px',
-			height:'500px',
+			width:'50%',
+			height:'60%',
 			okhandler:function(){
 				battcn.admin.menu${OP.menu}.save();
 			},
@@ -78,8 +78,8 @@ battcn.admin.menu${OP.menu}.edit = function(){
 	battcn.showWindow({
 			title:'编辑管理员',
 			href:rootPath + '/op_edit_${OP.menu}.shtml?id='+rows[0].id,
-			width:'800px',
-			height:'500px',
+			width:'50%',
+			height:'60%',
 			okhandler:function(){
 				battcn.admin.menu${OP.menu}.save();
 			},
