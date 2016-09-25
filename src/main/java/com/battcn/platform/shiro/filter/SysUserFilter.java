@@ -8,16 +8,17 @@ import org.apache.shiro.web.filter.PathMatchingFilter;
 public class SysUserFilter extends PathMatchingFilter
 {
 
-	//@Autowired private UserService userService;
+	//@Autowired
+	//private UserService userService;
 
 	@Override
 	protected boolean onPreHandle(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception
 	{
-		/* String accountName = (String)SecurityUtils.getSubject().getPrincipal();
-		 if(StringUtils.isNoneEmpty(accountName))
-		 {
+		/*String accountName = (String) SecurityUtils.getSubject().getPrincipal();
+		if (StringUtils.isNoneEmpty(accountName))
+		{
 			request.setAttribute("user", userService.findByLoginName(accountName));
-		 }*/
-		 return true;
+		}*/
+		return true;
 	}
 }
