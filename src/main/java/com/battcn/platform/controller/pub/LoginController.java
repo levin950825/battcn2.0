@@ -87,30 +87,6 @@ public class LoginController
 		return "redirect:/index.shtml";
 	}
 
-	/**
-	 * 登出系统
-	 * 
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @param user
-	 * @param result
-	 * @return
-	 */
-	@RequestMapping("logout")
-	public String logout()
-	{
-		Subject sub = SecurityUtils.getSubject();
-		try
-		{
-			if(sub != null)
-				sub.logout();
-		} catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		return "redirect:/login.shtml";
-	}
 
 	@RequestMapping("denied")
 	public String denied()

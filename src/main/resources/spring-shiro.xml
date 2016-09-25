@@ -50,10 +50,13 @@
 		<property name="sessionManager" ref="sessionManager" />
 
 		<property name="kickoutAfter" value="false" />
-		<property name="maxSession" value="1" />
+		<property name="maxSession" value="5" />
 		<property name="kickoutUrl" value="/login.shtml" />
 	</bean>
 
+	<bean id="logout" class="org.apache.shiro.web.filter.authc.LogoutFilter"> 
+        <property name="redirectUrl" value="/login.shtml" /> 
+    </bean> 
 
 	<!-- 配置shiro的过滤器工厂类，id- shiroFilter要和我们在web.xml中配置的过滤器一致 -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
@@ -80,6 +83,7 @@
 				/treegrid/** = anon
 				/denied.shtml = anon
 				/login.shtml = anon
+				/logout.shtml = logout 
 				/install.shtml = anon
 				/404.jsp = anon
 				/error.jsp = anon
