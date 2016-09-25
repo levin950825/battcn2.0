@@ -90,7 +90,6 @@
 				data: $('#menu${OP.menu}Form').serializeArray(),
 				dataType: "json",
 				success: function(data){
-					console.info(data);
 					if(data.success) {
 						battcn.closeWindow();
 						$('#admin_menu${OP.menu}_datagrid').bootstrapTable('refresh');
