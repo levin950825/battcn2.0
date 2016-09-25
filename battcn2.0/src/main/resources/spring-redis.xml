@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+           http://www.springframework.org/schema/beans/spring-beans-4.2.xsd  
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd  
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd  
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+	
+	<bean id="builder" class="com.battcn.framework.redis.JedisBuilder" destroy-method="stop">
+		<constructor-arg index="0" type="java.lang.String">
+			<value>${battcn.redis.host}</value>
+		</constructor-arg>
+		<constructor-arg index="1" type="int">
+			<value>${battcn.redis.port}</value>
+		</constructor-arg>
+		<constructor-arg index="2" type="int">
+			<value>2000</value>
+		</constructor-arg>
+		<constructor-arg index="3" type="int">
+			<value>5</value>
+		</constructor-arg>
+		<constructor-arg index="4" type="boolean">
+			<value>true</value>
+		</constructor-arg>
+		<constructor-arg index="5" type="java.lang.String">
+			<value>${battcn.redis.password}</value>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="redisOperator" class="com.battcn.framework.redis.impl.RedisOperatorImpl">
+		<property name="builder" ref="builder"/>
+	</bean>
+	
+	<bean id="managerCache" class="com.battcn.platform.cache.ManagerCacheAop"/>
+	<aop:config>
+		<aop:aspect id="managerCached" ref="managerCache" order="9">
+			<aop:after method="save" arg-names="dto" pointcut="execution(* com.battcn.platform.dao.ManagerDAO.insertSelective(..)) and args(dto) || execution(* com.battcn.platform.dao.ManagerDAO.updateByPrimaryKey(..)) and args(dto)"/>     
+            <aop:after method="deleteByKey"  arg-names="id"   pointcut="execution(* com.battcn.platform.dao.ManagerDAO.deleteByPrimaryKey(..)) and args(id)"/>  
+			<aop:around method="selectByKey" pointcut="execution(* com.battcn.platform.dao.ManagerDAO.selectByPrimaryKey(..))" />
+		</aop:aspect>
+	</aop:config>
+
+</beans>

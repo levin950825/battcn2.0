@@ -10,6 +10,7 @@ import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.entity.Example.Criteria;
 
 import com.alibaba.fastjson.JSONObject;
+import com.battcn.platform.dao.ManagerDAO;
 import com.battcn.platform.entity.AjaxJson;
 import com.battcn.platform.entity.DataGrid;
 import com.battcn.platform.entity.pub.ManagerEntity;
@@ -21,11 +22,13 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 @Service
-public class ManagerServiceImpl extends BaseService<ManagerEntity> implements
-		ManagerService
+public class ManagerServiceImpl extends BaseService<ManagerEntity> implements ManagerService
 {
 
-	@Autowired ManagerMapper managerMapper;
+	@Autowired
+	ManagerDAO managerDAO;
+	@Autowired
+	ManagerMapper managerMapper;
 
 	@Override
 	public ManagerEntity selectByAccount(String account)
@@ -44,15 +47,15 @@ public class ManagerServiceImpl extends BaseService<ManagerEntity> implements
 	@Override
 	public ManagerEntity selectByPrimaryKey(Long key)
 	{
-		return super.selectByPrimaryKey(key);
+		return this.managerDAO.selectByPrimaryKey(key);
 	}
 
 	@Override
-	public PageInfo<JSONObject> queryManagerForList(DataGrid grid,String name)
+	public PageInfo<JSONObject> queryManagerForList(DataGrid grid, String name)
 	{
 		if (StringUtils.isNotEmpty(grid.getSort()))
 		{
-			PageHelper.orderBy(grid.getSort() + "   "+ grid.getOrder());
+			PageHelper.orderBy(grid.getSort() + "   " + grid.getOrder());
 		}
 		PageHelper.startPage(grid.getPageNum(), grid.getPageSize());
 		return new PageInfo<JSONObject>(this.managerMapper.queryManagerForList(name));
@@ -62,7 +65,11 @@ public class ManagerServiceImpl extends BaseService<ManagerEntity> implements
 	public AjaxJson batchDelete(Long[] ids)
 	{
 		AjaxJson ajaxJson = new AjaxJson();
-		super.batchDeleteByPrimaryKey(ids);
+		if (ids != null && ids.length > 0)
+			for (int i = 0; i < ids.length; i++)
+			{
+				this.managerDAO.deleteByPrimaryKey(ids[i]);
+			}
 		ajaxJson.setSuccess(true);
 		ajaxJson.setMsg("删除成功！");
 		return ajaxJson;
@@ -72,21 +79,21 @@ public class ManagerServiceImpl extends BaseService<ManagerEntity> implements
 	public AjaxJson save(ManagerEntity dto)
 	{
 		AjaxJson json = new AjaxJson();
-		PasswordHelper helper = new  PasswordHelper();
+		PasswordHelper helper = new PasswordHelper();
 		if (dto.getManagerid() == null)
 		{
 			helper.encryptPassword(dto);
-			this.insertSelective(dto);
+			this.managerDAO.insertSelective(dto);
 		} else
 		{
-			if(StringUtils.isNotEmpty(dto.getPassword()))
+			if (StringUtils.isNotEmpty(dto.getPassword()))
 			{
 				helper.encryptPassword(dto);
-			}else
+			} else
 			{
 				dto.setPassword(null);
 			}
-			this.updateByPrimaryKey(dto);
+			this.managerDAO.updateByPrimaryKey(dto);
 		}
 		json.setSuccess(true);
 		json.setMsg("保存成功！");

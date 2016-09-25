@@ -17,9 +17,15 @@
 
 	<task:annotation-driven />
 	<tx:annotation-driven />
-	<context:component-scan base-package="com.battcn.platform.service" />
-	<context:component-scan base-package="com.battcn.platform.task" />
+	<!-- <aop:aspectj-autoproxy /> -->
+	
 	<context:component-scan base-package="com.battcn.framework" />
+	<context:component-scan base-package="com.battcn.platform" > 
+			<context:include-filter type="regex" expression=".dao.*"/> 
+           	<context:include-filter type="regex" expression=".service.*"/> 
+           	<context:include-filter type="regex" expression=".cache.*"/>
+           	<context:include-filter type="regex" expression=".task.*"/> 
+	</context:component-scan>
 	<bean class="com.battcn.util.spring.AppContextUtil"/>
 
 	<!-- 初始化数据 -->
@@ -139,4 +145,6 @@
 
 	<bean id="fileRepository" class="com.battcn.util.upload.FileRepository"
 		init-method="init" />
+		
+	<import resource="spring-redis.xml"/>
 </beans>
