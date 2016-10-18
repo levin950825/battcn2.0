@@ -15,6 +15,7 @@
      	http://www.springframework.org/schema/aop/spring-aop-4.2.xsd"
 	default-lazy-init="false">
 
+	<bean class="com.battcn.framework.jsoup.sina.SinaInitMethod" init-method="init"/>
 	<!-- 启用spring mvc 注解 -->
   	<context:annotation-config /> 
   	<context:component-scan base-package="com.battcn.platform" > 

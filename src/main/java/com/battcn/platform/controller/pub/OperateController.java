@@ -14,8 +14,11 @@ import com.battcn.platform.entity.pub.OperateEntity;
 import com.battcn.platform.service.pub.OperateService;
 import com.github.pagehelper.PageInfo;
 
+import springfox.documentation.annotations.ApiIgnore;
+
 @Controller
 @RequestMapping("/pub/operate")
+@ApiIgnore
 public class OperateController extends BaseController
 {
 

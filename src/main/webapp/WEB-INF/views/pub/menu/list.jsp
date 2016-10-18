@@ -109,11 +109,12 @@
 		}  );
 	}) 
 	$("#resources_meny>li").click(function(){
-		$(".J_mainContent div.J_box:visible").loadUrl(rootPath+"/resources/list.shtml?pageSize="+$(this).text());
+		battcn.reloadDiv(rootPath+"/pub/menu/list.shtml?pageSize="+$(this).text());
+		//$(".J_mainContent div.J_box:visible").loadUrl(rootPath+"/pub/menu/list.shtml?pageSize="+$(this).text());
 	});
 	function loadResources(pageNum)
 	{
-		$(".J_mainContent div.J_box:visible").loadUrl(rootPath+"/resources/list.shtml?pageNum="+pageNum);
+		battcn.reloadDiv(rootPath+"/pub/menu/list.shtml?pageNum="+pageNum);
 	}
 	//删除
 	battcn.admin.menu${OP.menu}.remove = function(){

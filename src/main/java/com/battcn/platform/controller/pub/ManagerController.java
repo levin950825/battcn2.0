@@ -3,11 +3,9 @@ package com.battcn.platform.controller.pub;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.fastjson.JSONObject;
 import com.battcn.platform.controller.BaseController;
 import com.battcn.platform.entity.AjaxJson;
@@ -16,8 +14,11 @@ import com.battcn.platform.entity.pub.ManagerEntity;
 import com.battcn.platform.service.pub.ManagerService;
 import com.github.pagehelper.PageInfo;
 
+import springfox.documentation.annotations.ApiIgnore;
+
 @Controller
 @RequestMapping("/pub/manager")
+@ApiIgnore
 public class ManagerController extends BaseController
 {
 	@Autowired
@@ -30,7 +31,7 @@ public class ManagerController extends BaseController
 	}
 
 	@RequestMapping(value = "/edit")
-	public String edit(Long id, ModelMap model)
+	public String edit(Long id, Model model)
 	{
 		if (id != null)
 		{
@@ -41,7 +42,7 @@ public class ManagerController extends BaseController
 
 	@RequestMapping(value = "/query")
 	@ResponseBody
-	public PageInfo<JSONObject> listview(DataGrid grid,String name)
+	public PageInfo<JSONObject> query(DataGrid grid,String name)
 	{
 		return this.managerService.queryManagerForList(grid,name);
 	}

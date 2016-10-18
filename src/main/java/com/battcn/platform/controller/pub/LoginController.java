@@ -27,7 +27,10 @@ import com.battcn.platform.service.pub.MenuService;
 import com.battcn.util.SessionUtil;
 import com.mysql.jdbc.Connection;
 
+import springfox.documentation.annotations.ApiIgnore;
+
 @Controller
+@ApiIgnore
 public class LoginController
 {
 	@Autowired

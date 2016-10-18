@@ -1,5 +1,7 @@
 package com.battcn.framework.mybatis.dao;
 
+import java.util.List;
+
 public interface MybatisSqlDao
 {
 	
@@ -12,6 +14,9 @@ public interface MybatisSqlDao
 	 * @throws Exception
 	 */
 	public Object save(String str, Object obj)  ;
+	
+	
+	public Object batchSave(String str, List<?> list)  throws Exception ;
 	
 	/**
 	 * 修改对象
