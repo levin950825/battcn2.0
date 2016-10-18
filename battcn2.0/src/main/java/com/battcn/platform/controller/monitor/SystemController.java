@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 
+import springfox.documentation.annotations.ApiIgnore;
+
 /**
  * @ClassName: SystemController
  * @Description: 系统监控
@@ -24,6 +26,7 @@ import com.alibaba.fastjson.JSONObject;
  */
 @Controller
 @RequestMapping("/system")
+@ApiIgnore
 public class SystemController
 {
 	@Autowired

@@ -1,5 +1,7 @@
 package com.battcn.util;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -254,5 +256,35 @@ public class CommonUtil
 	{
 		DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
 		return format1.format(new Date());
+	}
+	
+	/**
+	 * 
+	 * @Description: 获取项目路径
+	 * @param @return    参数
+	 * @return String    返回类型
+	 */
+	public static String getPorjectPath()
+	{
+		return System.getProperty("user.dir") + "/";
+	}
+
+	/**
+	 * 获取本机ip
+	 * 
+	 * @return
+	 */
+	public static String getIp()
+	{
+		String ip = "";
+		try
+		{
+			InetAddress inet = InetAddress.getLocalHost();
+			ip = inet.getHostAddress();
+		} catch (UnknownHostException e)
+		{
+			e.printStackTrace();
+		}
+		return ip;
 	}
 }

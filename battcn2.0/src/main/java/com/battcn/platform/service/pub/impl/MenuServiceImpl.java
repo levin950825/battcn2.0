@@ -146,6 +146,7 @@ public class MenuServiceImpl extends BaseService<MenuEntity> implements MenuServ
 	public PageInfo<MenuEntity> queryForDataGrid(DataGrid grid)
 	{
 		grid.setSort("scort");
+		grid.setPageSize(100);
 		return super.queryForDataGrid(grid);
 	}
 

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.battcn.platform.mapper.sina.SinaMapper">
+
+	
+	<insert id="batchAddSina">
+		insert into t_sina_weibo (blog,title,comment_id,comment_url,user_card,image,comment)  
+	    values 
+	    <foreach collection="list" item="item" index="index" separator="," > 
+	        (#{item.blog},#{item.title},#{item.commentId},#{item.commentUrl},#{item.userCard},#{item.image},#{item.comment}) 
+	    </foreach> 
+	</insert>
+	
+</mapper>

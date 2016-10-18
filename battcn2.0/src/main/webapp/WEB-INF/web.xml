@@ -55,7 +55,13 @@
 		<servlet-name>springmvc</servlet-name>
 		<url-pattern>*.shtml</url-pattern>
 	</servlet-mapping>
-	
+
+	<!-- <servlet-mapping> <servlet-name>springmvc</servlet-name> <url-pattern>/swagger-resources</url-pattern> 
+		</servlet-mapping> -->
+	<servlet-mapping>
+		<servlet-name>springmvc</servlet-name>
+		<url-pattern>/v2/api-docs</url-pattern>
+	</servlet-mapping>
 	
 	
 	<servlet>
@@ -86,8 +92,8 @@
 		<filter-name>DruidWebStatFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
-	
+
+
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
 		<url-pattern>*.eot</url-pattern>
@@ -95,6 +101,10 @@
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
 		<url-pattern>*.ttf</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.html</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>

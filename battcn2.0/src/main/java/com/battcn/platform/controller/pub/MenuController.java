@@ -13,9 +13,12 @@ import com.battcn.platform.entity.DataGrid;
 import com.battcn.platform.entity.pub.MenuEntity;
 import com.battcn.platform.service.pub.MenuService;
 
+import springfox.documentation.annotations.ApiIgnore;
+
 
 @Controller
 @RequestMapping("/pub/menu")
+@ApiIgnore
 public class MenuController extends BaseController
 {
 	@Resource MenuService menuService;

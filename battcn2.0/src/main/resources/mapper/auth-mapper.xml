@@ -9,11 +9,11 @@
 	</select>
 	
 	<select id="queryPermissionForList" resultType="java.lang.String" parameterType="java.lang.Long">
-		SELECT concat(t3.param,':',t2.op) param FROM t_sys_role t1 JOIN t_sys_role_operate t2 JOIN t_sys_menu t3
-		ON t1.id = t2.role AND t2.menu = t3.id
+		SELECT concat(t3.param,':',t1.op)param FROM t_sys_operate t1 JOIN t_sys_role_operate t2 ON t1.id = t2.op_id 
 		<if test="userId != null and userId != 0">
-			AND t1.id = (SELECT role FROM t_sys_manager WHERE managerid = #{userId});
+			AND t2.role = #{userId}
 		</if>
+		JOIN t_sys_menu t3 ON t1.menu = t3.id 
 	</select>
 
 
