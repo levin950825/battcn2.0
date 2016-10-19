@@ -18,7 +18,7 @@
 	<task:annotation-driven />
 	<tx:annotation-driven />
 	<!-- <aop:aspectj-autoproxy /> -->
-	<bean class="com.battcn.framework.SwaggerConfig" />
+	<bean class="com.battcn.framework.springfox.SwaggerConfig" />
 	<context:component-scan base-package="com.battcn.framework" />
 	<context:component-scan base-package="com.battcn.platform" > 
 			<context:include-filter type="regex" expression=".dao.*"/> 
