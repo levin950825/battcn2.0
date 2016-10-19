@@ -1,4 +1,4 @@
-package com.battcn.framework;
+package com.battcn.framework.springfox;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
