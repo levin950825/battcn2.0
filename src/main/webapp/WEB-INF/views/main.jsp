@@ -98,7 +98,8 @@
 											<li>JSON在线序列化,基佬在也不用担心截图的JSON不整齐了</li>
 											<li>新浪微博,博主发帖评论的爬虫抓取,各位客官悠着点别被封IP了</li>
 											<li>强大的Mycat,数据库中间件,Solr搜索查询,玩命开发中.....</li>
-											<li>Spring大家族的SpringFOX在线文档,目前未提供生成静态的.卖命开发中...</li>
+											<li>Spring大家族的SpringFOX在线文档,目前未提供生成静态的.卖命开发中...
+												http://localhost:8080/battcn/springfox/index.html</li>
 										</ol>
 									</div>
 								</div>
