@@ -52,14 +52,16 @@ public class CodeGeneratorController extends BaseController
 		return "utils/code/edit";
 	}
 	
-	@RequestMapping(value = "/cedit")
-	@ResponseBody
+	@RequestMapping(value = "/column")
 	@ApiOperation( value = "",hidden=true)
-	public CodeColumnEntity edit(String tid, String cid)
+	public String column(String tid, String cid, Model model)
 	{
-		return codeGeneratorService.getCodeColumnByUUID(tid,cid);
+		if (StringUtils.isNotEmpty(tid))
+		{
+			model.addAttribute("dto", codeGeneratorService.getCodeColumnByUUID(tid,cid));
+		}
+		return "utils/code/column";
 	}
-
 	
 	@RequestMapping(value = "/generate")
 	@ResponseBody

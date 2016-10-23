@@ -16,7 +16,7 @@ public class CodeColumnEntity
 	private String attributeType;
 	private String remake;
 	private String defaultVal;
-	private Date createDate;
+	private Date modifyDate;
 
 	public String getUuid()
 	{
@@ -67,13 +67,13 @@ public class CodeColumnEntity
 	{
 		this.defaultVal = defaultVal;
 	}
-	public Date getCreateDate()
+	public Date getModifyDate()
 	{
-		return createDate;
+		return modifyDate;
 	}
 
-	public void setCreateDate(Date createDate)
+	public void setModityDate(Date modifyDate)
 	{
-		this.createDate = createDate;
+		this.modifyDate = modifyDate;
 	}
 }

@@ -5,8 +5,8 @@
     	 $('#admin_menu${(OP.menu)!'$'+'{OP.menu}'}_datagrid').bootstrapTable({ 
              url:rootPath + '${(MENU.channel)!'$'+'{MENU.channel}'}/query.shtml',
              height: '100%',
-             sortName: 'createTime',
-             sortOrder: 'desc',
+             //sortName: 'createTime',
+             //sortOrder: 'desc',
              striped: true,
              pagination: true,
              pageSize: 10,
@@ -21,21 +21,27 @@
              clickToSelect: true,
              columns: [{checkbox: true
              },
-             {
-                 field: 'message',
-                 title: '消息',
-                 align: 'center',
-                 valign: 'middle'
-             },{
-                 field: 'createTime',
-                 title: '操作时间',
-                 align: 'center',
-                 valign: 'top',            
-                 sortable: true,
-                 formatter:function(value,row,index){return new Date(value).pattern("yyyy-MM-dd HH:mm:ss")}
-             } ]      
+     <#list fieldList as var>
+		<#if var[1] == 'Date'>
+			 {
+             	field: '${var.attributeName}',
+                title: '${var.remake}',
+                align: 'center',
+                valign: 'top',            
+                sortable: true,
+                formatter:function(value,row,index){return new Date(value).pattern("yyyy-MM-dd HH:mm:ss")}
+             },
+		<#else>
+			 {
+                field: '${var.attributeName}',
+                title: '${var.remake}',
+                align: 'center',
+                valign: 'middle'
+              },
+		</#if>
+	</#list> 
+             ]      
 	     });
-    	 
 	});
 </script>
 <div class="wrapper wrapper-content animated fadeInRight">

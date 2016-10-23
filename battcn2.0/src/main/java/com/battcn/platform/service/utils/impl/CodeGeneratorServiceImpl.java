@@ -44,22 +44,38 @@ public class CodeGeneratorServiceImpl implements CodeGeneratorService
 	{
 		if (StringUtils.isNotBlank(tid))
 		{
-			if("false".equals(tid))
+			if ("false".equals(tid))
 				return null;
 			List<CodeColumnEntity> codeList = new ArrayList<CodeColumnEntity>();
 			Map<String, String> list = redisOperator.hgetAll(tid, CACHE_DB_INDEX);
-			for (String str : list.values())
+			JSONObject obj = null;
+			CodeColumnEntity column = null;
+			if (list != null && list.size() > 0)
 			{
-				codeList.add(JSON.parseObject(str, CodeColumnEntity.class));
+				for (String str : list.values())
+				{
+					obj = JSON.parseObject(str);
+					column = new CodeColumnEntity();
+					column.setAttributeName(obj.getString("attributeName"));
+					column.setAttributeType(obj.getString("attributeType"));
+					column.setDefaultVal(obj.getString("defaultVal"));
+					column.setModityDate(obj.getDate("modifyDate"));
+					column.setRemake(obj.getString("remake"));
+					column.setUuid(obj.getString("uuid"));
+					codeList.add(column);
+				}
 			}
 			return codeList;
 		} else
 		{
 			List<CodeTableEntity> codeList = new ArrayList<CodeTableEntity>();
 			Map<String, String> list = redisOperator.hgetAll(CACHE_DB_KEY, CACHE_DB_INDEX);
-			for (String str : list.values())
+			if (list != null && list.size() > 0)
 			{
-				codeList.add(JSON.parseObject(str, CodeTableEntity.class));
+				for (String str : list.values())
+				{
+					codeList.add(JSON.parseObject(str, CodeTableEntity.class));
+				}
 			}
 			return codeList;
 		}
@@ -71,8 +87,9 @@ public class CodeGeneratorServiceImpl implements CodeGeneratorService
 		String json = redisOperator.hget(CACHE_DB_KEY, uuid, CACHE_DB_INDEX);
 		return JSON.parseObject(json, CodeTableEntity.class);
 	}
+
 	@Override
-	public CodeColumnEntity getCodeColumnByUUID(String tid,String cid)
+	public CodeColumnEntity getCodeColumnByUUID(String tid, String cid)
 	{
 		String json = redisOperator.hget(tid, cid, CACHE_DB_INDEX);
 		return JSON.parseObject(json, CodeColumnEntity.class);
@@ -108,18 +125,27 @@ public class CodeGeneratorServiceImpl implements CodeGeneratorService
 		}
 		return null;
 	}
-	
+
 	@Override
-	public AjaxJson saveOrUpdateColumn(String tid,CodeColumnEntity column)
+	public AjaxJson saveOrUpdateColumn(String tid, CodeColumnEntity column)
 	{
 		AjaxJson ajaxJson = new AjaxJson();
-		if (column != null)
+		try
 		{
-			JSONObject json = (JSONObject) JSON.toJSON(column);
-			Long row = redisOperator.hset(tid, column.getUuid(), json.toJSONString(), CACHE_DB_INDEX);
-			ajaxJson.setMsg("添加成功");
-			ajaxJson.setSuccess(row > 0 ? true : false);
+			if (column != null)
+			{
+				column.setModityDate(new Date());
+				JSONObject json = (JSONObject) JSON.toJSON(column);
+				redisOperator.hset(tid, column.getUuid(), json.toJSONString(), CACHE_DB_INDEX);
+				ajaxJson.setMsg("添加成功");
+				ajaxJson.setSuccess(true);
+			}
+		} catch (Exception e)
+		{
+			ajaxJson.setMsg("系统异常");
+			ajaxJson.setSuccess(false);
 		}
+		
 		return ajaxJson;
 	}
 
@@ -127,12 +153,19 @@ public class CodeGeneratorServiceImpl implements CodeGeneratorService
 	public AjaxJson saveOrUpdate(CodeTableEntity table)
 	{
 		AjaxJson ajaxJson = new AjaxJson();
-		if (table != null)
+		try
 		{
-			JSONObject json = (JSONObject) JSON.toJSON(table);
-			Long row = redisOperator.hset(CACHE_DB_KEY, table.getUuid(), json.toJSONString(), CACHE_DB_INDEX);
-			ajaxJson.setMsg("添加成功");
-			ajaxJson.setSuccess(row > 0 ? true : false);
+			if (table != null)
+			{
+				JSONObject json = (JSONObject) JSON.toJSON(table);
+				redisOperator.hset(CACHE_DB_KEY, table.getUuid(), json.toJSONString(), CACHE_DB_INDEX);
+				ajaxJson.setMsg("添加成功");
+				ajaxJson.setSuccess(true);
+			}
+		} catch (Exception e)
+		{
+			ajaxJson.setMsg("系统异常");
+			ajaxJson.setSuccess(false);
 		}
 		return ajaxJson;
 	}
@@ -146,7 +179,7 @@ public class CodeGeneratorServiceImpl implements CodeGeneratorService
 		CodeColumnEntity c1 = new CodeColumnEntity();
 		c1.setAttributeName("name");
 		c1.setAttributeType("varchar");
-		c1.setCreateDate(new Date());
+		c1.setModityDate(new Date());
 		c1.setDefaultVal("memmsc");
 		c1.setRemake("备注");
 		c1.setUuid("FEA407942D2D2B0CF3AA20FDDC8050B4");
@@ -166,7 +199,13 @@ public class CodeGeneratorServiceImpl implements CodeGeneratorService
 		String tablePre = code.getTablePrefix();
 
 		Map<String, Object> root = new HashMap<String, Object>(); // 创建数据模型
-		root.put("fieldList", code.getColumnList());
+		Map<String, String> list = redisOperator.hgetAll(uuid, CACHE_DB_INDEX);
+		List<CodeColumnEntity> codeList = new ArrayList<CodeColumnEntity>();
+		for (String str : list.values())
+		{
+			codeList.add(JSON.parseObject(str, CodeColumnEntity.class));
+		}
+		root.put("fieldList", codeList);
 		root.put("upPack", upPack); // 包名
 		root.put("proClass", proClass); // 类名
 		String lower = proClass.toLowerCase();
@@ -175,7 +214,7 @@ public class CodeGeneratorServiceImpl implements CodeGeneratorService
 		root.put("proClassUpper", upper); // 类名(全大写)
 		root.put("tablePre", tablePre); // 表前缀
 		root.put("nowDate", new Date()); // 当前日期
-		//root.put("OP.menu", "OP.menu"); // 当前日期
+		// root.put("OP.menu", "OP.menu"); // 当前日期
 
 		/**
 		 * =====================================================================
@@ -213,7 +252,5 @@ public class CodeGeneratorServiceImpl implements CodeGeneratorService
 		FileUtil.fileDownload(response, PathUtil.getClasspath() + filePath + proClass + "Code.zip",
 				proClass + "Code.zip");
 	}
-
-
 
 }

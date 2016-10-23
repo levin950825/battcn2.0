@@ -6,13 +6,13 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `${tablePre}${proClassUpper}`;
 CREATE TABLE `${tablePre}${proClassUpper}` (
- 		`${proClassUpper}_ID` varchar(100) NOT NULL,
-	<#list fieldList as var>
-		<#if var[1] == 'Integer'>
-		`${var[0]}` int(11) NOT NULL COMMENT '${var[2]}',
-		<#else>
-		`${var[0]}` varchar(255) DEFAULT NULL COMMENT '${var[2]}',
-		</#if>
-	</#list>
-  		PRIMARY KEY (`${proClassUpper}_ID`)
+ 	`ID` INT(8) NOT NULL AUTO_INCREMENT COMMENT '主键',
+<#list fieldList as var>
+	<#if var.attributeType == 'Integer'>
+	`${var.attributeName}` int(8) DEFAULT '${var.defaultVal}' COMMENT '${var.remake}',
+	<#else>
+	`${var.attributeName}` varchar(255) DEFAULT '${var.defaultVal}' COMMENT '${var.remake}',
+	</#if>
+</#list>
+  	PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
